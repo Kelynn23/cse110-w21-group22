@@ -7,6 +7,7 @@
 **Attendees**
 
 Present: Kelynn, Nicholas, Kevin, Brian, Chanly, Yihe, Jennifer
+
 Absent: Kendall, Catherine
 
 **Agenda**
