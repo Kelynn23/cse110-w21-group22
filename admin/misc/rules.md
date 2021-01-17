@@ -18,6 +18,6 @@ Use a random number generator, and they will do one of the following:
   3. Make a post tagging everyone in the group with comment "These are my bestfriends :)"
   4. Show an embarrassing (appropriate) picture of yourself
 
-### Reccuring/Serious Issues
+### Recurring/Serious Issues
   - Reachout to individual to see what's going on and try to help and understand
   - If we can't figure out a solution, reach out to TA for next steps
