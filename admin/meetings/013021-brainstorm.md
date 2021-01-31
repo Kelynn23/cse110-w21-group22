@@ -6,5 +6,9 @@ Attendees
 - Absent: None
 
 ### Agenda
-- Popcorn ideas from everyons
+- Popcorn ideas from everyone
 - Discuss design, features, and roles
+
+### Notes
+- Collected ideas from everyone on Figma
+- Organized ideas into yes/no/maybe
