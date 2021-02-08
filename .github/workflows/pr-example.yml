@@ -15,5 +15,5 @@ jobs:
       - name: create-pull-request
         uses: repo-sync/pull-request@v2
         with:
-          destination_branch: "prod"
+          destination_branch: "example"
           github_token: ${{ secrets.GITHUB_TOKEN }}
