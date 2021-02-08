@@ -1,0 +1,19 @@
+name: Pull Request workflow example
+
+on:
+  push:
+    branches: [ workflow-pr ]
+
+jobs:
+  create-pr:
+    
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: create-pull-request
+        uses: repo-sync/pull-request@v2
+        with:
+          destination_branch: "prod"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
