@@ -2,10 +2,10 @@ const startButton = document.getElementById("starttimer");
 startButton.addEventListener('click', startTimer);
 
 const displayTimer = document.getElementById('timerDisplay');
-const incrementButton = document.getElementById('increment');
-const decrementButton = document.getElementById('decrement');
-incrementButton.addEventListener('click', increment);
-decrementButton.addEventListener('click', decrement);
+//const incrementButton = document.getElementById('increment');
+//const decrementButton = document.getElementById('decrement');
+//incrementButton.addEventListener('click', increment);
+//decrementButton.addEventListener('click', decrement);
 
 var numPomos = 0;
 var timerInterval;
@@ -81,6 +81,7 @@ function displayTime() {
     displayTimer.innerHTML = minutes + ":" + seconds;
 }
 
+/*
 function increment()
 {
     if(mode == 0) {
@@ -118,5 +119,8 @@ function decrement()
         startTime = longBreak;
         displayTime();
     }
+
     
 }
+
+*/
