@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
+	<link href="./style.css" rel="stylesheet">
 </head>
 <body>
     <header>
@@ -13,11 +14,11 @@
 		</header>
 		<main>
 			<div class="timercontainer">
-				<div class="timer"><h1>25:00</h1></div>
+				<div class="timer"><h1 id='timerDisplay'></h1></div>
 				<button class="start" id="starttimer" type="button">Start</button>
 			</div>
 			<section class="right">
-				<div class="complete"><h2>__ Pomos Finished</h2></div>
+				<div class="complete"><h2 id='complete'>__ Pomos Finished</h2></div>
 				<section class="tasklist">
 					<h2>Tasklist</h2>
 					<button title="Add task" id="addtask" class="tasklistadd" type="button">Add task</button>
@@ -25,5 +26,6 @@
 			</section>
 		</div>
 		</main>
+	<script src="timer.js"></script>
 </body>
 </html>
