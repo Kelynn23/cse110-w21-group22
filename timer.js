@@ -3,6 +3,7 @@ startButton.addEventListener('click', startTimer);
 
 const displayTimer = document.getElementById('timerDisplay');
 const displayTitle = document.getElementById('pageTitle');
+const autoStartSetting = document.getElementById('autostart');
 
 /**const incrementButton = document.getElementById('increment');
 const decrementButton = document.getElementById('decrement');
@@ -65,15 +66,27 @@ function timer()
         //notification to users at session end
         if(mode == 0){
             displayTitle.innerHTML = 'Work Session Ended';
-            alert('Work Session Ended');
+            /* only create an alert if AutoStart is turned off, 
+               (the next round won't start until the user manually accepts the alert) */
+            if(!autoStartSetting.checked) {
+                alert('Work Session Ended');
+            }
         }
         else if(mode == 1){
             displayTitle.innerHTML = 'Short Break Ended';
-            alert('Short Break Ended');
+            /* only create an alert if AutoStart is turned off, 
+               (the next round won't start until the user manually accepts the alert) */
+            if(!autoStartSetting.checked) {
+                alert('Short Break Ended');
+            }
         }
         else{
             displayTitle.innerHTML = 'Long Break Ended';
-            alert('Long Break Ended');
+            /* only create an alert if AutoStart is turned off, 
+               (the next round won't start until the user manually accepts the alert) */
+            if(!autoStartSetting.checked) {
+                alert('Long Break Ended');
+            }
         }
 
         //working -> long break
@@ -106,6 +119,11 @@ function timer()
                 mode = 0;
                 pomoMode();
             }
+        }
+
+        // Start the next round if the AutoStart Setting is turned on
+        if(autoStartSetting.checked) {
+            startTimer();
         }
     }
 }

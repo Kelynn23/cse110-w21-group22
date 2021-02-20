@@ -1,8 +1,8 @@
 
 // variables for the modal and open/close buttons
-var modal = document.getElementById("settingsContainer");
-var settingsBtn = document.getElementById("settingsBtn");
-var closeBtn = document.getElementsByClassName("close")[0];
+const modal = document.getElementById("settingsContainer");
+const settingsBtn = document.getElementById("settingsBtn");
+const closeBtn = document.getElementsByClassName("close")[0];
 
 // open the modal when user clicks on settings button
 settingsBtn.onclick = function() {
