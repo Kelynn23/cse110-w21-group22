@@ -4,19 +4,21 @@
     <meta charset="UTF-8">
     <title id="pageTitle">Group22Pomo</title>
 	<link href="./style.css" rel="stylesheet">
+	<link rel="stylesheet" href="settings.css">
 </head>
 <body>
     <header>
-			<a href="https://github.com/Kelynn23/cse110-w21-group22"><div id="logo">Logo</div></a>
-			<nav>
-				<button title="Add event" class="Add" type="submit">+</button>
-			</nav>
-		</header>
-		<main>
-			<div class="timercontainer">
-				<div class="timer"><h1 id='timerDisplay'></h1></div>
-				<button class="start" id="starttimer" type="button">Start</button>
-			</div>
+		<a href="https://github.com/Kelynn23/cse110-w21-group22"><div id="logo">Logo</div></a>
+		<nav>
+			<button title="Add event" class="Add" type="submit">+</button>
+			<button title="Settings" id="settingsBtn">Settings</button>
+		</nav>
+	</header>
+	<main>
+		<div class="timercontainer">
+			<div class="timer"><h1 id='timerDisplay'></h1></div>
+			<button class="start" id="starttimer" type="button">Start</button>
+		</div>
 			<section class="right">
 				<div class="complete"><h2 id='complete'>0 Pomos Finished</h2></div>
 				<section class="tasklist">
@@ -25,7 +27,23 @@
 				</section>
 			</section>
 		</div>
-		</main>
+	</main>
+
+	<!-- Settings Modal -->
+	<div id="settingsContainer" class="modal">		
+		<div class="modal-content">
+			<span class="close">&times;</span>
+			<br>
+			<section>
+				<label for="autostart" class="toggleLabel">AutoStart</label>
+				<input type="checkbox" id="autostart" class="checkbox" />
+				<label for="autostart" class="switch"></label>
+			</section>
+
+		</div>
+	</div>
+
 	<script src="timer.js"></script>
+	<script src="settings.js"></script>
 </body>
 </html>
