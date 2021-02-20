@@ -27,31 +27,21 @@ function startTimer() {
     if(timerStatus == 0) {
         pomoMode();
         timerInterval = setInterval(timer, 1000);
-        startButton.innerHTML = "Stop";
+        startButton.innerHTML = "Reset";
         //timer is now running, set flag
         timerStatus = 1;
     }
-    //timer was stopped
-    else if (timerStatus == 1){
-        stopTimer();
-    }
     //timer is about to be reset
-    else if (timerStatus == -1) {
+    else if (timerStatus == 1) {
         resetTimer();
+        pomoMode();
     }
-}
-
-//stops the timer and allows user to reset their pomo session
-function stopTimer() {
-    clearInterval(timerInterval);
-    timerStatus = -1;
-    startButton.innerHTML = "Reset";
 }
 
 //resets the timer to original time and mode to work time
 function resetTimer() {
+    clearInterval(timerInterval);
     startTime = focusTime;
-    mode = 0;
     modeStr = 'Working';
     displayTime();
     timerStatus = 0;
@@ -75,18 +65,23 @@ function timer()
         //notification to users at session end
         if(mode == 0){
             displayTitle.innerHTML = 'Work Session Ended';
+            alert('Work Session Ended');
         }
         else if(mode == 1){
             displayTitle.innerHTML = 'Short Break Ended';
+            alert('Short Break Ended');
         }
         else{
             displayTitle.innerHTML = 'Long Break Ended';
+            alert('Long Break Ended');
         }
 
         //working -> long break
         if(numPomos % numPomosToLongBreak == numPomosToLongBreak - 1 
             && mode == 0) {
             mode = 2;
+            //display the time for next mode
+            pomoMode(); 
         }
         //short break -> working
         else if(mode == 1) {
@@ -94,11 +89,14 @@ function timer()
             numPomos += 1;
             document.getElementById('complete').innerHTML = numPomos + " Pomos Finished";
             mode = 0;
+            //display the time for next mode
+            pomoMode();
         }
         else {
             //working -> short break
             if(mode == 0){
                 mode = 1;
+                pomoMode();
             }
             //long break -> working
             else{
@@ -106,6 +104,7 @@ function timer()
                 numPomos += 1;
                 document.getElementById('complete').innerHTML = numPomos + " Pomos Finished";
                 mode = 0;
+                pomoMode();
             }
         }
     }
