@@ -8,15 +8,20 @@ incrementButton.addEventListener('click', increment);
 decrementButton.addEventListener('click', decrement);
 */
 const DEFAULT_POMO_TIME = 1500; //25:00
+const DEFAULT_BREAK_TIME = 300; //5:00
+const DEFAULT_LONG_BREAK_TIME = 900; //15:00
+const DEFAULT_POMOS_TO_BREAK = 4;
+
 var numPomos = 0;
 var timerInterval;
-var startTime = focusTime;
 var mode = 0;
 var timerStatus = 0; //0 is not started, -1 is stopped, 1 is running
 var focusTime = 10;
 var shortBreak = 5;
 var longBreak = 7;
 var numPomosToLongBreak = 4;
+
+var startTime = focusTime;
 
 //start button behavior, checks if timer is running and toggles
 function startTimer() {
@@ -28,11 +33,11 @@ function startTimer() {
         //timer is now running, set flag
         timerStatus = 1;
     }
-    //timer was stopped
+    //timer is running, stop it
     else if (timerStatus == 1){
         stopTimer();
     }
-    //timer is about to be reset
+    //timer is stopped, reset it
     else if (timerStatus == -1) {
         resetTimer();
     }
@@ -52,6 +57,32 @@ function resetTimer() {
     mode = 0;
     timerStatus = 0;
     startButton.innerHTML = "Start";
+}
+
+//sets the timer to a different value based on what triggered the change
+//only allows changes when timer is not running
+function setTimer(operation) {
+  //timer is running, do not allow changes
+  if(timerStatus != 0) {
+    console.log("timer is running, disabled setting time");
+    return;
+  }
+
+  if(operation == "increment") {
+      focusTime += 60;
+  }
+  else if (operation == "decrement") {
+      if(focusTime > 60) {
+          focusTime -=60;
+      }
+      else {
+          focusTime = 0;
+      }
+  }
+
+  startTime = focusTime;
+  //redraw the time
+  displayTime();
 }
 
 //main driver for timer functionality
@@ -92,7 +123,7 @@ function timer()
 function pomoMode()
 {
     if(mode == 0) {
-        startTime = 10;
+        startTime = focusTime;
         displayTime();
     }
     else if(mode == 1) {
@@ -114,45 +145,3 @@ function displayTime() {
 
     displayTimer.innerHTML = minutes + ":" + seconds;
 }
-
-/** 
-function increment()
-{
-    if(mode == 0) {
-        focusTime += 10;
-        startTime = focusTime;
-        displayTime();
-    }
-    else if(mode == 1) {
-        shortBreak += 10;
-        startTime = shortBreak;
-        displayTime();
-
-    } else {
-        longBreak += 10;
-        startTime = longBreak;
-        displayTime();
-    }
-
-}
-
-function decrement()
-{
-    if(mode == 0) {
-        focusTime -= 10;
-        startTime = focusTime;
-        displayTime();
-    }
-    else if(mode == 1) {
-        shortBreak -= 10;
-        startTime = shortBreak;
-        displayTime();
-
-    } else {
-        longBreak -= 10;
-        startTime = longBreak;
-        displayTime();
-    }
-    
-}
-*/
