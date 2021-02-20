@@ -2,6 +2,8 @@ const startButton = document.getElementById("starttimer");
 startButton.addEventListener('click', startTimer);
 
 const displayTimer = document.getElementById('timerDisplay');
+const displayTitle = document.getElementById('pageTitle');
+
 /**const incrementButton = document.getElementById('increment');
 const decrementButton = document.getElementById('decrement');
 incrementButton.addEventListener('click', increment);
@@ -12,6 +14,7 @@ var numPomos = 0;
 var timerInterval;
 var startTime = focusTime;
 var mode = 0;
+var modeStr = '';
 var timerStatus = 0; //0 is not started, -1 is stopped, 1 is running
 var focusTime = 10;
 var shortBreak = 5;
@@ -48,8 +51,9 @@ function stopTimer() {
 //resets the timer to original time and mode to work time
 function resetTimer() {
     startTime = focusTime;
-    displayTime();
     mode = 0;
+    modeStr = 'Working';
+    displayTime();
     timerStatus = 0;
     startButton.innerHTML = "Start";
 }
@@ -67,40 +71,63 @@ function timer()
         clearInterval(timerInterval);
         startButton.innerHTML = "Start";
         timerStatus = 0;
-        if(numPomos != 0 && numPomos % numPomosToLongBreak == 0)
-        {
-            //long break
-            mode = 10000;
-            numPomos += 1;
-            document.getElementById('complete').innerHTML = numPomos + " Pomos Finished";
+
+        //notification to users at session end
+        if(mode == 0){
+            displayTitle.innerHTML = 'Work Session Ended';
         }
-        else if(mode == 1) {
-            //work mode
-            mode = 0;
-            numPomos += 1;
-            document.getElementById('complete').innerHTML = numPomos + " Pomos Finished";
+        else if(mode == 1){
+            displayTitle.innerHTML = 'Short Break Ended';
         }
-        else {
-            //short break
-            mode = 1;
+        else{
+            displayTitle.innerHTML = 'Long Break Ended';
         }
 
+        //working -> long break
+        if(numPomos % numPomosToLongBreak == numPomosToLongBreak - 1 
+            && mode == 0) {
+            mode = 2;
+        }
+        //short break -> working
+        else if(mode == 1) {
+            //increment numPomos after short break
+            numPomos += 1;
+            document.getElementById('complete').innerHTML = numPomos + " Pomos Finished";
+            mode = 0;
+        }
+        else {
+            //working -> short break
+            if(mode == 0){
+                mode = 1;
+            }
+            //long break -> working
+            else{
+                //increment numPomos after long break
+                numPomos += 1;
+                document.getElementById('complete').innerHTML = numPomos + " Pomos Finished";
+                mode = 0;
+            }
+        }
     }
 }
 
+//To set mode for the next round of timer
 //0: work, 1: short break, 2:long break
 function pomoMode()
 {
     if(mode == 0) {
-        startTime = 10;
+        startTime = focusTime;
+        modeStr = 'Working';
         displayTime();
     }
     else if(mode == 1) {
         startTime = shortBreak;
+        modeStr = 'Short Break';
         displayTime();
-
-    } else {
+    } 
+    else {
         startTime = longBreak;
+        modeStr = 'Long Break';
         displayTime();
     }
 }
@@ -108,11 +135,12 @@ function pomoMode()
 function displayTime() {
     let seconds = startTime % 60;
     let minutes = Math.floor((startTime / 60));
-    if(seconds < 10) seconds = '0' + seconds;
 
+    if(seconds < 10) seconds = '0' + seconds;
     if(minutes < 10) minutes = '0' + minutes;
 
     displayTimer.innerHTML = minutes + ":" + seconds;
+    displayTitle.innerHTML = '(' + minutes + ':' + seconds + ')' + modeStr;
 }
 
 /** 
