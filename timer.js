@@ -2,11 +2,8 @@ const startButton = document.getElementById("starttimer");
 startButton.addEventListener('click', startTimer);
 
 const displayTimer = document.getElementById('timerDisplay');
-<<<<<<< HEAD
-=======
 const displayTitle = document.getElementById('pageTitle');
 const autoStartSetting = document.getElementById('autostart');
->>>>>>> eaa7808bc552a725da0b7a9f3f73feb911fa8e8b
 
 /**const incrementButton = document.getElementById('increment');
 const decrementButton = document.getElementById('decrement');
