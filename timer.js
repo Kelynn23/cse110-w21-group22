@@ -2,6 +2,7 @@ const startButton = document.getElementById("starttimer");
 startButton.addEventListener('click', startTimer);
 
 const displayTimer = document.getElementById('timerDisplay');
+
 /**const incrementButton = document.getElementById('increment');
 const decrementButton = document.getElementById('decrement');
 incrementButton.addEventListener('click', increment);
@@ -67,6 +68,7 @@ function timer()
         clearInterval(timerInterval);
         startButton.innerHTML = "Start";
         timerStatus = 0;
+        timerSound();
         if(numPomos != 0 && numPomos % numPomosToLongBreak == 0)
         {
             //long break
@@ -115,6 +117,12 @@ function displayTime() {
     displayTimer.innerHTML = minutes + ":" + seconds;
 }
 
+function timerSound(){
+    let audio = document.createElement('audio');
+    audio.src = './assets/sound.mp3'
+    audio.play();
+    return(!audio.pause);
+}
 /** 
 function increment()
 {
