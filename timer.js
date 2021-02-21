@@ -28,12 +28,10 @@ function startTimer() {
     if(timerStatus == 0) {
         pomoMode();
         timerInterval = setInterval(timer, 1000);
-        startButton.innerHTML = "Reset";
+        startButton.innerHTML = 'Reset';
         //timer is now running, set flag
         timerStatus = 1;
-    }
-    //timer is about to be reset
-    else if (timerStatus == 1) {
+    } else if (timerStatus == 1) {    //timer is about to be reset
         resetTimer();
         pomoMode();
     }
@@ -46,80 +44,28 @@ function resetTimer() {
     modeStr = 'Working';
     displayTime();
     timerStatus = 0;
-    startButton.innerHTML = "Start";
+    startButton.innerHTML = 'Start';
 }
 
 //main driver for timer functionality
 //ticks down time and calls displayTime
 //at end of timer, checks mode and transitions to next mode
-function timer()
-{
+function timer() {
     startTime -= 1;
     displayTime();
+
     //timer reaches 00:00
-    if(startTime == 0)
-    {
+    if(startTime == 0) {
         clearInterval(timerInterval);
-        startButton.innerHTML = "Start";
+        startButton.innerHTML = 'Start';
         timerStatus = 0;
         timerSound();
-        //notification to users at session end
-        if(mode == 0){
-            displayTitle.innerHTML = 'Work Session Ended';
-            /* only create an alert if AutoStart is turned off, 
-               (the next round won't start until the user manually accepts the alert) */
-            if(!autoStartSetting.checked) {
-                alert('Work Session Ended');
-            }
-        }
-        else if(mode == 1){
-            displayTitle.innerHTML = 'Short Break Ended';
-            /* only create an alert if AutoStart is turned off, 
-               (the next round won't start until the user manually accepts the alert) */
-            if(!autoStartSetting.checked) {
-                alert('Short Break Ended');
-            }
-        }
-        else{
-            displayTitle.innerHTML = 'Long Break Ended';
-            /* only create an alert if AutoStart is turned off, 
-               (the next round won't start until the user manually accepts the alert) */
-            if(!autoStartSetting.checked) {
-                alert('Long Break Ended');
-            }
-        }
 
-        //working -> long break
-        if(numPomos % numPomosToLongBreak == numPomosToLongBreak - 1 
-            && mode == 0) {
-            mode = 2;
-            //display the time for next mode
-            pomoMode(); 
-        }
-        //short break -> working
-        else if(mode == 1) {
-            //increment numPomos after short break
-            numPomos += 1;
-            document.getElementById('complete').innerHTML = numPomos + " Pomos Finished";
-            mode = 0;
-            //display the time for next mode
-            pomoMode();
-        }
-        else {
-            //working -> short break
-            if(mode == 0){
-                mode = 1;
-                pomoMode();
-            }
-            //long break -> working
-            else{
-                //increment numPomos after long break
-                numPomos += 1;
-                document.getElementById('complete').innerHTML = numPomos + " Pomos Finished";
-                mode = 0;
-                pomoMode();
-            }
-        }
+        //notify users that current session ends
+        pomoEndNotif();
+        
+        //work -> short break -> long break
+        pomoTransitions();
 
         // Start the next round if the AutoStart Setting is turned on
         if(autoStartSetting.checked) {
@@ -128,21 +74,78 @@ function timer()
     }
 }
 
+function pomoTransitions() {
+    //working -> long break
+    if(numPomos % numPomosToLongBreak == numPomosToLongBreak - 1 
+        && mode == 0) {
+        mode = 2;
+        //display the time for next mode
+        pomoMode(); 
+    }
+    //short break -> working
+    else if(mode == 1) {
+        //increment numPomos after short break
+        numPomos += 1;
+        document.getElementById('complete').innerHTML = numPomos + ' Pomos Finished';
+        mode = 0;
+        //display the time for next mode
+        pomoMode();
+    }
+    else {
+        //working -> short break
+        if(mode == 0){
+            mode = 1;
+            pomoMode();
+        }
+        //long break -> working
+        else{
+            //increment numPomos after long break
+            numPomos += 1;
+            document.getElementById('complete').innerHTML = numPomos + ' Pomos Finished';
+            mode = 0;
+            pomoMode();
+        }
+    }
+}
+
+function pomoEndNotif() {
+     //notification to users at session end
+     if(mode == 0) {
+        displayTitle.innerHTML = 'Work Session Ended';
+        /* only create an alert if AutoStart is turned off, 
+           (the next round won't start until the user manually accepts the alert) */
+        if(!autoStartSetting.checked) {
+            alert('Work Session Ended');
+        }
+    } else if(mode == 1) {
+        displayTitle.innerHTML = 'Short Break Ended';
+        /* only create an alert if AutoStart is turned off, 
+           (the next round won't start until the user manually accepts the alert) */
+        if(!autoStartSetting.checked) {
+            alert('Short Break Ended');
+        }
+    } else {
+        displayTitle.innerHTML = 'Long Break Ended';
+        /* only create an alert if AutoStart is turned off, 
+           (the next round won't start until the user manually accepts the alert) */
+        if(!autoStartSetting.checked) {
+            alert('Long Break Ended');
+        }
+    }
+}
+
 //To set mode for the next round of timer
 //0: work, 1: short break, 2:long break
-function pomoMode()
-{
+function pomoMode() {
     if(mode == 0) {
         startTime = focusTime;
         modeStr = 'Working';
         displayTime();
-    }
-    else if(mode == 1) {
+    } else if (mode == 1) {
         startTime = shortBreak;
         modeStr = 'Short Break';
         displayTime();
-    } 
-    else {
+    } else {
         startTime = longBreak;
         modeStr = 'Long Break';
         displayTime();
@@ -156,11 +159,11 @@ function displayTime() {
     if(seconds < 10) seconds = '0' + seconds;
     if(minutes < 10) minutes = '0' + minutes;
 
-    displayTimer.innerHTML = minutes + ":" + seconds;
+    displayTimer.innerHTML = minutes + ':' + seconds;
     displayTitle.innerHTML = '(' + minutes + ':' + seconds + ')' + modeStr;
 }
 
-function timerSound(){
+function timerSound() {
     let audio = document.createElement('audio');
     audio.src = './assets/sound.mp3'
     audio.play();
