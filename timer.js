@@ -165,7 +165,7 @@ function displayTime() {
 
 function timerSound() {
     let audio = document.createElement('audio');
-    audio.src = './assets/sound.mp3'
+    audio.src = './assets/ding.wav'
     audio.play();
     return(!audio.pause);
 }
