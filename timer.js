@@ -60,7 +60,6 @@ function timer() {
         startButton.innerHTML = 'Start';
         timerStatus = 0;
         timerSound();
-
         //notify users that current session ends
         pomoEndNotif();
         
@@ -165,7 +164,13 @@ function displayTime() {
 
 function timerSound() {
     let audio = document.createElement('audio');
-    audio.src = './assets/ding.wav'
+    ///* :)
+    if (mode == 0) {
+        audio.src = './assets/Break time.wav'
+    } else {
+        audio.src = './assets/Work time.wav'
+    }
+    //*/
     audio.play();
     return(!audio.pause);
 }
