@@ -10,15 +10,13 @@
     <header>
 		<a href="https://github.com/Kelynn23/cse110-w21-group22"><div id="logo">Logo</div></a>
 		<nav>
-			<button title="Add event" class="Add" type="submit">+</button>
+			<!-- <button title="Add event" class="Add" type="submit">+</button> -->
 			<button title="Settings" id="settingsBtn">Settings</button>
 		</nav>
 	</header>
 	<main>
 		<h1>Work!</h1>
 		<div class="timercontainer">
-			<button id="increment" type="button">&#x25B2;</button>
-			<button id="decrement" type="button">&#x25BC;</button>
 			<div class="timer"><h1 id='timerDisplay'></h1></div>
 			<button class="start" id="starttimer" type="button">Start</button>
 		</div>
@@ -41,12 +39,29 @@
 				<label for="autostart" class="toggleLabel">AutoStart</label>
 				<input type="checkbox" id="autostart" class="checkbox" />
 				<label for="autostart" class="switch"></label>
+				<br>
+				<form id="time-settings">
+					<label for="focus-time">Focus Time</label>
+					<input id="focus-time" name="focus-time" type="number" min="1" max="60"
+				value="25" required>
+					<br>
+					<label for="short-break">Short Break</label>
+					<input id="short-break" name="short-break" type="number" min="1" max="60"
+				value="5" required>
+					<br>
+					<label for="long-break">Long Break</label>
+					<input id="long-break" name="long-break" type="number" min="1" max="60"
+				value="15" required>
+					<br>
+					<input id="settings-submit" type="submit">
+				</form>
 			</section>
 
 		</div>
 	</div>
 
-	<script src="timer.js"></script>
-	<script src="settings.js"></script>
+	<script src="./timer.js"></script>
+	<script src="./settings.js"></script>
+	
 </body>
 </html>

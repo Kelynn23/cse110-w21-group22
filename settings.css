@@ -86,3 +86,9 @@
     vertical-align: 20%;
     margin-right: 5px;
 }
+
+/* Time Settings */
+#settings-submit {
+    /* hide submit button */
+    display: none;
+} 
