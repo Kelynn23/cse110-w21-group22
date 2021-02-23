@@ -5,15 +5,9 @@ const displayTimer = document.getElementById('timerDisplay');
 const displayTitle = document.getElementById('pageTitle');
 const autoStartSetting = document.getElementById('autostart');
 
-/**const incrementButton = document.getElementById('increment');
-const decrementButton = document.getElementById('decrement');
-incrementButton.addEventListener('click', increment);
-decrementButton.addEventListener('click', decrement);
-*/
 const DEFAULT_POMO_TIME = 1500; //25:00
 var numPomos = 0;
 var timerInterval;
-var startTime = focusTime;
 var mode = 0;
 var modeStr = '';
 var timerStatus = 0; //0 is not started, -1 is stopped, 1 is running
@@ -21,11 +15,14 @@ var focusTime = 10;
 var shortBreak = 5;
 var longBreak = 7;
 var numPomosToLongBreak = 4;
+var startTime = focusTime;
+pomoMode();
 
 //start button behavior, checks if timer is running and toggles
 function startTimer() {
     //timer is not running
     if(timerStatus == 0) {
+        settingsBtn.style.display = "none";
         pomoMode();
         timerInterval = setInterval(timer, 1000);
         startButton.innerHTML = 'Reset';
@@ -39,12 +36,13 @@ function startTimer() {
 
 //resets the timer to original time and mode to work time
 function resetTimer() {
+    settingsBtn.style.display = "initial";
     clearInterval(timerInterval);
     startTime = focusTime;
-    modeStr = 'Working';
+    modeStr = 'Focus';
     displayTime();
     timerStatus = 0;
-    startButton.innerHTML = 'Start';
+    startButton.innerHTML = 'Start'; 
 }
 
 //main driver for timer functionality
@@ -55,7 +53,8 @@ function timer() {
     displayTime();
 
     //timer reaches 00:00
-    if(startTime == 0) {
+    if(startTime <= 0) {
+        settingsBtn.style.display = "initial";
         clearInterval(timerInterval);
         startButton.innerHTML = 'Start';
         timerStatus = 0;
@@ -138,7 +137,7 @@ function pomoEndNotif() {
 function pomoMode() {
     if(mode == 0) {
         startTime = focusTime;
-        modeStr = 'Working';
+        modeStr = 'Focus';
         displayTime();
     } else if (mode == 1) {
         startTime = shortBreak;
@@ -159,7 +158,7 @@ function displayTime() {
     if(minutes < 10) minutes = '0' + minutes;
 
     displayTimer.innerHTML = minutes + ':' + seconds;
-    displayTitle.innerHTML = '(' + minutes + ':' + seconds + ')' + modeStr;
+    displayTitle.innerHTML = '(' + minutes + ':' + seconds + ') ' + modeStr;
 }
 
 function timerSound() {
@@ -174,44 +173,3 @@ function timerSound() {
     audio.play();
     return(!audio.pause);
 }
-/** 
-function increment()
-{
-    if(mode == 0) {
-        focusTime += 10;
-        startTime = focusTime;
-        displayTime();
-    }
-    else if(mode == 1) {
-        shortBreak += 10;
-        startTime = shortBreak;
-        displayTime();
-
-    } else {
-        longBreak += 10;
-        startTime = longBreak;
-        displayTime();
-    }
-
-}
-
-function decrement()
-{
-    if(mode == 0) {
-        focusTime -= 10;
-        startTime = focusTime;
-        displayTime();
-    }
-    else if(mode == 1) {
-        shortBreak -= 10;
-        startTime = shortBreak;
-        displayTime();
-
-    } else {
-        longBreak -= 10;
-        startTime = longBreak;
-        displayTime();
-    }
-    
-}
-*/
