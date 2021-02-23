@@ -3,6 +3,7 @@ startButton.addEventListener('click', startTimer);
 
 const displayTimer = document.getElementById('timerDisplay');
 const displayTitle = document.getElementById('pageTitle');
+const displayStatus = document.getElementById('statusDisplay');
 const autoStartSetting = document.getElementById('autostart');
 
 const DEFAULT_POMO_TIME = 1500; //25:00
@@ -61,7 +62,7 @@ function timer() {
         timerSound();
         //notify users that current session ends
         pomoEndNotif();
-        
+
         //work -> short break -> long break
         pomoTransitions();
 
@@ -113,21 +114,21 @@ function pomoEndNotif() {
         /* only create an alert if AutoStart is turned off, 
            (the next round won't start until the user manually accepts the alert) */
         if(!autoStartSetting.checked) {
-            alert('Work Session Ended');
+            setTimeout(function(){alert('Work Session Ended');}, 500);
         }
     } else if(mode == 1) {
         displayTitle.innerHTML = 'Short Break Ended';
         /* only create an alert if AutoStart is turned off, 
            (the next round won't start until the user manually accepts the alert) */
         if(!autoStartSetting.checked) {
-            alert('Short Break Ended');
+            setTimeout(function(){alert('Short Break Ended');}, 500);
         }
     } else {
         displayTitle.innerHTML = 'Long Break Ended';
         /* only create an alert if AutoStart is turned off, 
            (the next round won't start until the user manually accepts the alert) */
         if(!autoStartSetting.checked) {
-            alert('Long Break Ended');
+            setTimeout(function(){alert('Long Break Ended');}, 500);
         }
     }
 }
@@ -139,14 +140,17 @@ function pomoMode() {
         startTime = focusTime;
         modeStr = 'Focus';
         displayTime();
+        displayStatus.innerHTML = 'Focus!';
     } else if (mode == 1) {
         startTime = shortBreak;
         modeStr = 'Short Break';
         displayTime();
+        displayStatus.innerHTML = 'Short Break!';
     } else {
         startTime = longBreak;
         modeStr = 'Long Break';
         displayTime();
+        displayStatus.innerHTML = 'Long Break!';
     }
 }
 
