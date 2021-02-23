@@ -13,26 +13,23 @@ settingsBtn.onclick = function() {
 // close the modal when the close button is clicked
 closeBtn.onclick = function() {
   submitSettings.click();
-  if (checkTimeInputs()) {
-    modal.style.display = "none";
-    updateTimes();
-  }
 }
 
 // close the modal when the user clicks outside the settings box
 window.onclick = function(event) {
   if (event.target == modal) {
     submitSettings.click();
-    if (checkTimeInputs()) {
-      modal.style.display = "none";
-      updateTimes();
-    }
   }
 }
 
-// prevent page from reloading when time inputs are submitted
+// only allow user to close settings if all inputs are valid
+// update time values when settings are closed
 settingsForm.addEventListener("submit", function(event) {
   event.preventDefault();
+  if (checkTimeInputs()) {
+    modal.style.display = "none";
+    updateTimes();
+  }
 });
 
 // returns true if user inputs are valid, false otherwise
