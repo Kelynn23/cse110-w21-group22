@@ -1,6 +1,6 @@
 # CSE 110 Winter 21 Group 22
 
-### Week 3 Meeting 
+### Sprint 1 Review
   - Where: Discord
   - When: 2/23/2021 6:00 PM - 6:30 PM PST
   
