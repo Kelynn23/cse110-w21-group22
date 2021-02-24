@@ -8,7 +8,9 @@ Attendees
 ### Agenda
 - Work on video assignment
 - Discuss tasklist feature
+- Discuss what we achieved during the first sprint
 
 ### Notes
 - Showed demo for simple tasklist
 - Decided to have someone do exploratory coding for the tasklist but keep it simple and isolated from the timer
+- See sprint notes for sprint related information
