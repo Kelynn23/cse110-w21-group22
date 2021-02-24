@@ -19,5 +19,5 @@ Present: Brian, Kendall, Chanly, Yihe, Nicholas, Jennifer, Kelynn, Kevin, Cather
     However I find writing unit tests challenging since it’s a completely new topic and it would take me some time to figure it out. - Yihe
   - "I added settings where the user can edit the lengths of work/break sessions and turn on an AutoStart feature. Overall we achieved the main goal of putting together a functioning MVP 
     but we could've done a better job with the SE process in this sprint" - Brian
-  -     
+  - "I think sprint 1 was about getting acquainted with the process. I am proud of ensuring that keyboard commands works although we changed some of our code so I'm not sure if it's as relevant. I had challenges with testing but hopefully after this week I will get it completely."
   
