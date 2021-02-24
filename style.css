@@ -69,6 +69,33 @@ table {
 	right: 0;
 	width: 40%;
 }
+.timer {
+	display: block;
+	left: 50%;
+	position: absolute;
+	top: 50%;
+	text-align: center;
+	transform:translate(-50%,-50%);
+	font-size: 80px;
+}
+.mode {
+	display: block;
+	left: 50%;
+	position: absolute;
+	top: 20%;
+	text-align: center;
+	transform:translate(-50%,-50%);
+	font-size: x-large;
+}
+.start {
+	display: block;
+	left: 50%;
+	position: absolute;
+	top: 80%;
+	transform:translate(-50%,-50%);
+	font-size: x-large;
+	background-color:#bcdeec
+}
 .timercontainer {
 	background-color: white;
 	border-radius: 10px;
@@ -83,21 +110,6 @@ table {
 	height: 100%;
 	position: absolute;
 	width: 100%;
-}
-.timer {
-	display: block;
-	left: 50%;
-	position: absolute;
-	top: 50%;
-	text-align: center;
-	transform:translate(-50%,-50%);
-}
-.start {
-	display: block;
-	left: 50%;
-	position: absolute;
-	top: 75%;
-	transform:translate(-50%,-50%);
 }
 #increment {
 	left: 10%;

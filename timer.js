@@ -3,7 +3,7 @@ startButton.addEventListener('click', startTimer);
 
 const displayTimer = document.getElementById('timerDisplay');
 const displayTitle = document.getElementById('pageTitle');
-const displayStatus = document.getElementById('statusDisplay');
+const modeDisplay = document.getElementById('modeDisplay');
 const autoStartSetting = document.getElementById('autostart');
 
 const DEFAULT_POMO_TIME = 1500; //25:00
@@ -80,6 +80,7 @@ function pomoTransitions() {
         mode = 2;
         //display the time for next mode
         pomoMode(); 
+
     }
     //short break -> working
     else if(mode == 1) {
@@ -140,17 +141,17 @@ function pomoMode() {
         startTime = focusTime;
         modeStr = 'Focus';
         displayTime();
-        displayStatus.innerHTML = 'Focus!';
+        modeDisplay.innerHTML = 'Work!';
     } else if (mode == 1) {
         startTime = shortBreak;
         modeStr = 'Short Break';
         displayTime();
-        displayStatus.innerHTML = 'Short Break!';
+        modeDisplay.innerHTML = 'Short Break!';
     } else {
         startTime = longBreak;
         modeStr = 'Long Break';
         displayTime();
-        displayStatus.innerHTML = 'Long Break!';
+        modeDisplay.innerHTML = 'Long Break!';
     }
 }
 
