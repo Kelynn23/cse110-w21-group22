@@ -1,5 +1,9 @@
 {
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "doc": "jsdoc -c jsdoc.json"
+  },
+  "devDependencies": {
+    "jsdoc": "^3.6.6"
   }
 }
