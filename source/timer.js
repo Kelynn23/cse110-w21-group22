@@ -1,33 +1,128 @@
+/**
+ * @file timer.js controls the timer and all mode of the pomodoro technique
+ * @author group 22
+ */
+
+
+
+/**
+ * Start button/Reset button
+ * @type {element}
+ */
 const startButton = document.getElementById("starttimer");
 startButton.addEventListener('click', startOrReset);
 
+/**
+ * Timer Display
+ * @type {element}
+ */
 const displayTimer = document.getElementById('timerDisplay');
+/**
+ * Text in the tab
+ * @type {element}
+ */
 const displayTitle = document.getElementById('pageTitle');
+/**
+ * Display Mode
+ * @type {element}
+ */
 const modeDisplay = document.getElementById('modeDisplay');
+/**
+ * Auto Start Button
+ * @type {element}
+ */
 const autoStartSetting = document.getElementById('autostart');
 
-const DEFAULT_POMO_TIME = 1500; //25:00
-// timer status constants for readability
+/**
+ * Check if timer has started or not
+ * @type {number}
+ */
 const NOT_STARTED = 0;
-const RUNNING = 1;
-// mode constants for readability
-const WORK = 0;
-const SHORT_BREAK = 1;
-const LONG_BREAK = 2;
 
+/**
+ * Check if timer is running
+ * @type {number}
+ */
+const RUNNING = 1;
+
+/**
+ * The mode that represents work
+ * @type {number}
+ */
+const WORK = 0;
+
+/**
+ * The mode the represents short break
+ * @type {number}
+ */
+const SHORT_BREAK = 1;
+
+/**
+ * The mode that represents long break
+ * @type {number}
+ */
+const LONG_BREAK = 2;
+/**
+ * Default focus time 
+ * @type {number}
+ */
+const DEFAULT_POMO_TIME = 1500; //25:00
+/**
+ * Number of pomos that have been completed
+ * @type {number}
+ */
 var numPomos = 0;
+/**
+ * Function that repeatedly calls timer() every 1s
+ * @type {function}
+ */
 var timerInterval;
+/**
+ * Keep tracks of the current mode
+ * @type {number}
+ */
 var mode = WORK;
+/**
+ * String that displays the current mode for the user
+ * @type {string}
+ */
 var modeStr = '';
-var timerStatus = NOT_STARTED; //0 is not started, -1 is stopped, 1 is running
+/**
+ * Keep tracks of the status of the timer (0 is not started, -1 is stopped, 1 is running)
+ * @type {number}
+ */
+var timerStatus = NOT_STARTED; 
+/**
+ * Time for focus time
+ * @type {number}
+ */
 var focusTime = 10;
+/**
+ * Time of short break
+ * @type {number}
+ */
 var shortBreak = 5;
+/**
+ * Time of long break
+ * @type {number}
+ */
 var longBreak = 7;
+/**
+ * Number of pomos that need to be completed before long break
+ * @type {number}
+ */
 var numPomosToLongBreak = 4;
+/**
+ * The time in seconds that will count down
+ * @type {number}
+ */
 var startTime = focusTime;
 pomoMode();
 
-//start button behavior, checks if timer is running and toggles
+
+/**
+ * start button behavior, checks if timer is running and toggles
+ */
 function startOrReset() {
     // timer is not running
     if(timerStatus == NOT_STARTED) {
@@ -38,6 +133,9 @@ function startOrReset() {
     pomoMode();
 }
 
+/**
+ * starts the timer so it begins counting down
+ */
 function startTimer() {
     settingsBtn.style.display = "none";
     timerInterval = setInterval(timer, 1000);
@@ -46,7 +144,10 @@ function startTimer() {
     timerStatus = RUNNING;
 }
 
-//resets the timer to original time and mode to work time
+
+/**
+ * resets the timer to original time and mode to work time
+ */
 function resetTimer() {
     settingsBtn.style.display = "initial";
     clearInterval(timerInterval);
@@ -56,12 +157,15 @@ function resetTimer() {
     timerStatus = NOT_STARTED;  
 }
 
-//main driver for timer functionality
-//ticks down time and calls displayTime
-//at end of timer, checks mode and transitions to next mode
+
+/**
+ * main driver for timer functionality,
+ * ticks down the timer and calls displayTime,
+ * at the end of timer it checks mode and transitions to next mode
+ */
 function timer() {
     startTime -= 1;
-    displayTime();
+    displayTime(startTime);
 
     //timer reaches 00:00
     if(startTime <= 0) {
@@ -69,9 +173,9 @@ function timer() {
         clearInterval(timerInterval);
         startButton.innerHTML = 'Start';
         timerStatus = NOT_STARTED;
-        timerSound();
+        timerSound(mode);
         //notify users that current session ends
-        pomoEndNotif();
+        pomoEndNotif(mode);
         //work -> short break -> long break
         pomoTransitions();
 
@@ -82,6 +186,13 @@ function timer() {
     }
 }
 
+/**
+ * transitions from current mode to the next mode,
+ * working -> short break,
+ * short break -> working,
+ * working -> long break (after 4 pomos),
+ * long break - working
+ */
 function pomoTransitions() {
     //working -> long break
     if(numPomos % numPomosToLongBreak == numPomosToLongBreak - 1 
@@ -109,14 +220,18 @@ function pomoTransitions() {
         }
     }
     //display the time for next mode
-    pomoMode();
+    pomoMode(mode);
 }
 
-function pomoEndNotif() {
+/**
+ * Displays a notification for the user based on the current mode
+ * @param {number} currentMode - The current mode of the timer
+ */
+function pomoEndNotif(currentMode) {
     var notification;
-    if(mode == WORK) {
+    if(currentMode == WORK) {
         notification =  'Work Session Ended';  
-    } else if(mode == SHORT_BREAK) {
+    } else if(currentMode == SHORT_BREAK) {
         notification =  'Short Break Ended';
     } else {
         notification =  'Long Break Ended';
@@ -131,13 +246,16 @@ function pomoEndNotif() {
     }  
 }
 
-//To set mode for the next round of timer
-//0: work, 1: short break, 2:long break
-function pomoMode() {
-    if(mode == WORK) {
+
+/**
+ * Set the mode for the next round of timer (0: work, 1: short break, 2:long break)
+ * @param {number} currentMode - The current mode of the timer
+ */
+function pomoMode(currentMode) {
+    if(currentMode == WORK) {
         startTime = focusTime;
         modeStr = 'Focus';
-    } else if (mode == SHORT_BREAK) {
+    } else if (currentMode == SHORT_BREAK) {
         startTime = shortBreak;
         modeStr = 'Short Break';
     } else {
@@ -148,9 +266,13 @@ function pomoMode() {
     modeDisplay.innerHTML = modeStr;
 }
 
-function displayTime() {
-    let seconds = startTime % 60;
-    let minutes = Math.floor((startTime / 60));
+/**
+ * Takes the time in seconds converts it into minutes and seconds then displays it
+ * @param {number} timeToDisplay - total time in seconds
+ */
+function displayTime(timeToDisplay) {
+    let seconds = timeToDisplay % 60;
+    let minutes = Math.floor((timeToDisplay / 60));
 
     if(seconds < 10) seconds = '0' + seconds;
     if(minutes < 10) minutes = '0' + minutes;
@@ -159,10 +281,15 @@ function displayTime() {
     displayTitle.innerHTML = '(' + minutes + ':' + seconds + ') ' + modeStr;
 }
 
-function timerSound() {
+/**
+ * plays a sound notification based on the current mode
+ * @param {number} currentMode 
+ * @return {boolean} - Tells you if the audio has successfully been played
+ */
+function timerSound(currentMode) {
     let audio = document.createElement('audio');
     ///* :)
-    if (mode == 0) {
+    if (currentMode == 0) {
         audio.src = './assets/Break time.wav'
     } else {
         audio.src = './assets/Work time.wav'

@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: timer.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: timer.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @file timer.js controls the timer and all mode of the pomodoro technique
+ * @author group 22
+ */
+
+
+
+/**
+ * Start button/Reset button
+ * @type {element}
+ */
+const startButton = document.getElementById("starttimer");
+startButton.addEventListener('click', startOrReset);
+
+/**
+ * Timer Display
+ * @type {element}
+ */
+const displayTimer = document.getElementById('timerDisplay');
+/**
+ * Text in the tab
+ * @type {element}
+ */
+const displayTitle = document.getElementById('pageTitle');
+/**
+ * Display Mode
+ * @type {element}
+ */
+const modeDisplay = document.getElementById('modeDisplay');
+/**
+ * Auto Start Button
+ * @type {element}
+ */
+const autoStartSetting = document.getElementById('autostart');
+
+/**
+ * Check if timer has started or not
+ * @type {number}
+ */
+const NOT_STARTED = 0;
+
+/**
+ * Check if timer is running
+ * @type {number}
+ */
+const RUNNING = 1;
+
+/**
+ * The mode that represents work
+ * @type {number}
+ */
+const WORK = 0;
+
+/**
+ * The mode the represents short break
+ * @type {number}
+ */
+const SHORT_BREAK = 1;
+
+/**
+ * The mode that represents long break
+ * @type {number}
+ */
+const LONG_BREAK = 2;
+/**
+ * Default focus time 
+ * @type {number}
+ */
+const DEFAULT_POMO_TIME = 1500; //25:00
+/**
+ * Number of pomos that have been completed
+ * @type {number}
+ */
+var numPomos = 0;
+/**
+ * Function that repeatedly calls timer() every 1s
+ * @type {function}
+ */
+var timerInterval;
+/**
+ * Keep tracks of the current mode
+ * @type {number}
+ */
+var mode = WORK;
+/**
+ * String that displays the current mode for the user
+ * @type {string}
+ */
+var modeStr = '';
+/**
+ * Keep tracks of the status of the timer (0 is not started, -1 is stopped, 1 is running)
+ * @type {number}
+ */
+var timerStatus = NOT_STARTED; 
+/**
+ * Time for focus time
+ * @type {number}
+ */
+var focusTime = 10;
+/**
+ * Time of short break
+ * @type {number}
+ */
+var shortBreak = 5;
+/**
+ * Time of long break
+ * @type {number}
+ */
+var longBreak = 7;
+/**
+ * Number of pomos that need to be completed before long break
+ * @type {number}
+ */
+var numPomosToLongBreak = 4;
+/**
+ * The time in seconds that will count down
+ * @type {number}
+ */
+var startTime = focusTime;
+pomoMode();
+
+
+/**
+ * start button behavior, checks if timer is running and toggles
+ */
+function startOrReset() {
+    // timer is not running
+    if(timerStatus == NOT_STARTED) {
+        startTimer();
+    } else if (timerStatus == RUNNING) {    //timer is about to be reset
+        resetTimer();
+    }
+    pomoMode();
+}
+
+/**
+ * starts the timer so it begins counting down
+ */
+function startTimer() {
+    settingsBtn.style.display = "none";
+    timerInterval = setInterval(timer, 1000);
+    startButton.innerHTML = 'Reset';
+    //timer is now running, set flag
+    timerStatus = RUNNING;
+}
+
+
+/**
+ * resets the timer to original time and mode to work time
+ */
+function resetTimer() {
+    settingsBtn.style.display = "initial";
+    clearInterval(timerInterval);
+    mode = WORK;
+    startButton.innerHTML = 'Start';
+    //timer is not started, set flag
+    timerStatus = NOT_STARTED;  
+}
+
+
+/**
+ * main driver for timer functionality,
+ * ticks down the timer and calls displayTime,
+ * at the end of timer it checks mode and transitions to next mode
+ */
+function timer() {
+    startTime -= 1;
+    displayTime(startTime);
+
+    //timer reaches 00:00
+    if(startTime &lt;= 0) {
+        settingsBtn.style.display = "initial";
+        clearInterval(timerInterval);
+        startButton.innerHTML = 'Start';
+        timerStatus = NOT_STARTED;
+        timerSound(mode);
+        //notify users that current session ends
+        pomoEndNotif(mode);
+        //work -> short break -> long break
+        pomoTransitions();
+
+        // Start the next round if the AutoStart Setting is turned on
+        if(autoStartSetting.checked) {
+            startTimer();
+        }
+    }
+}
+
+/**
+ * transitions from current mode to the next mode,
+ * working -> short break,
+ * short break -> working,
+ * working -> long break (after 4 pomos),
+ * long break - working
+ */
+function pomoTransitions() {
+    //working -> long break
+    if(numPomos % numPomosToLongBreak == numPomosToLongBreak - 1 
+        &amp;&amp; mode == WORK) {
+        mode = LONG_BREAK;
+    }
+    //short break -> working
+    else if(mode == SHORT_BREAK) {
+        //increment numPomos after short break
+        numPomos += 1;
+        document.getElementById('complete').innerHTML = numPomos + ' Pomos Finished';
+        mode = WORK;
+    }
+    else {
+        //working -> short break
+        if(mode == WORK){
+            mode = SHORT_BREAK;
+        }
+        //long break -> working
+        else{
+            //increment numPomos after long break
+            numPomos += 1;
+            document.getElementById('complete').innerHTML = numPomos + ' Pomos Finished';
+            mode = WORK;  
+        }
+    }
+    //display the time for next mode
+    pomoMode(mode);
+}
+
+/**
+ * Displays a notification for the user based on the current mode
+ * @param {number} currentMode - The current mode of the timer
+ */
+function pomoEndNotif(currentMode) {
+    var notification;
+    if(currentMode == WORK) {
+        notification =  'Work Session Ended';  
+    } else if(currentMode == SHORT_BREAK) {
+        notification =  'Short Break Ended';
+    } else {
+        notification =  'Long Break Ended';
+    }
+    //notification to users at session end
+    displayTitle.innerHTML = notification;
+
+    /* only create an alert if AutoStart is turned off, 
+        (the next round won't start until the user manually accepts the alert) */
+    if(!autoStartSetting.checked) {
+        setTimeout(function() {alert(notification);}, 500);
+    }  
+}
+
+
+/**
+ * Set the mode for the next round of timer (0: work, 1: short break, 2:long break)
+ * @param {number} currentMode - The current mode of the timer
+ */
+function pomoMode(currentMode) {
+    if(currentMode == WORK) {
+        startTime = focusTime;
+        modeStr = 'Focus';
+    } else if (currentMode == SHORT_BREAK) {
+        startTime = shortBreak;
+        modeStr = 'Short Break';
+    } else {
+        startTime = longBreak;
+        modeStr = 'Long Break';
+    }
+    displayTime();
+    modeDisplay.innerHTML = modeStr;
+}
+
+/**
+ * Takes the time in seconds converts it into minutes and seconds then displays it
+ * @param {number} timeToDisplay - total time in seconds
+ */
+function displayTime(timeToDisplay) {
+    let seconds = timeToDisplay % 60;
+    let minutes = Math.floor((timeToDisplay / 60));
+
+    if(seconds &lt; 10) seconds = '0' + seconds;
+    if(minutes &lt; 10) minutes = '0' + minutes;
+
+    displayTimer.innerHTML = minutes + ':' + seconds;
+    displayTitle.innerHTML = '(' + minutes + ':' + seconds + ') ' + modeStr;
+}
+
+/**
+ * plays a sound notification based on the current mode
+ * @param {number} currentMode 
+ * @return {boolean} - Tells you if the audio has successfully been played
+ */
+function timerSound(currentMode) {
+    let audio = document.createElement('audio');
+    ///* :)
+    if (currentMode == 0) {
+        audio.src = './assets/Break time.wav'
+    } else {
+        audio.src = './assets/Work time.wav'
+    }
+    //*/
+    audio.play();
+    return(!audio.pause);
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#autoStartSetting">autoStartSetting</a></li><li><a href="global.html#checkTimeInputs">checkTimeInputs</a></li><li><a href="global.html#closeBtn">closeBtn</a></li><li><a href="global.html#DEFAULT_POMO_TIME">DEFAULT_POMO_TIME</a></li><li><a href="global.html#displayModal">displayModal</a></li><li><a href="global.html#displayTime">displayTime</a></li><li><a href="global.html#displayTimer">displayTimer</a></li><li><a href="global.html#displayTitle">displayTitle</a></li><li><a href="global.html#focusTime">focusTime</a></li><li><a href="global.html#LONG_BREAK">LONG_BREAK</a></li><li><a href="global.html#longBreak">longBreak</a></li><li><a href="global.html#modal">modal</a></li><li><a href="global.html#mode">mode</a></li><li><a href="global.html#modeDisplay">modeDisplay</a></li><li><a href="global.html#modeStr">modeStr</a></li><li><a href="global.html#NOT_STARTED">NOT_STARTED</a></li><li><a href="global.html#numPomos">numPomos</a></li><li><a href="global.html#numPomosToLongBreak">numPomosToLongBreak</a></li><li><a href="global.html#pomoEndNotif">pomoEndNotif</a></li><li><a href="global.html#pomoMode">pomoMode</a></li><li><a href="global.html#pomoTransitions">pomoTransitions</a></li><li><a href="global.html#resetTimer">resetTimer</a></li><li><a href="global.html#RUNNING">RUNNING</a></li><li><a href="global.html#settingsBtn">settingsBtn</a></li><li><a href="global.html#settingsForm">settingsForm</a></li><li><a href="global.html#SHORT_BREAK">SHORT_BREAK</a></li><li><a href="global.html#shortBreak">shortBreak</a></li><li><a href="global.html#startButton">startButton</a></li><li><a href="global.html#startOrReset">startOrReset</a></li><li><a href="global.html#startTime">startTime</a></li><li><a href="global.html#startTimer">startTimer</a></li><li><a href="global.html#submitSettings">submitSettings</a></li><li><a href="global.html#timer">timer</a></li><li><a href="global.html#timerInterval">timerInterval</a></li><li><a href="global.html#timerSound">timerSound</a></li><li><a href="global.html#timerStatus">timerStatus</a></li><li><a href="global.html#updateTimes">updateTimes</a></li><li><a href="global.html#WORK">WORK</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Sun Feb 28 2021 20:28:30 GMT-0800 (Pacific Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
