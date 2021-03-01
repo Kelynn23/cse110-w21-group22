@@ -17,10 +17,22 @@ var focusTime = 10;
 var shortBreak = 5;
 var longBreak = 7;
 var numPomosToLongBreak = 4;
+// document.title="hi";
+
+window.onkeydown = function (e) {
+    var code = e.keyCode ? e.keyCode : e.which;
+    if(code == 32){
+        startTimer();
+    }
+};
 
 //start button behavior, checks if timer is running and toggles
 function startTimer() {
     //timer is not running
+    // document.title ="hi";
+    
+
+    // document.title = document.getElementById('timerDisplay').innerHTML;
     if(timerStatus == 0) {
         pomoMode();
         timerInterval = setInterval(timer, 1000);
@@ -93,19 +105,19 @@ function pomoMode()
 {
     if(mode == 0) {
         startTime = 10;
-        displayTime();
+        displayTime(mode);
     }
     else if(mode == 1) {
         startTime = shortBreak;
-        displayTime();
+        displayTime(mode);
 
     } else {
         startTime = longBreak;
-        displayTime();
+        displayTime(mode);
     }
 }
 
-function displayTime() {
+function displayTime(mode) {
     let seconds = startTime % 60;
     let minutes = Math.floor((startTime / 60));
     if(seconds < 10) seconds = '0' + seconds;
@@ -113,6 +125,15 @@ function displayTime() {
     if(minutes < 10) minutes = '0' + minutes;
 
     displayTimer.innerHTML = minutes + ":" + seconds;
+    if(mode == 0) {
+        document.querySelector('title').textContent = "WORK " + minutes + ":" + seconds; 
+    }
+    else if(mode == 1) {
+        document.querySelector('title').textContent = "BREAK " + minutes + ":" + seconds; 
+
+    } else {
+        document.querySelector('title').textContent = "LONG BREAK " + minutes + ":" + seconds; 
+    }
 }
 
 /** 
