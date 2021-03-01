@@ -117,7 +117,7 @@ var numPomosToLongBreak = 4;
  * @type {number}
  */
 var startTime = focusTime;
-pomoMode();
+pomoMode(mode);
 
 
 /**
@@ -130,7 +130,7 @@ function startOrReset() {
     } else if (timerStatus == RUNNING) {    //timer is about to be reset
         resetTimer();
     }
-    pomoMode();
+    pomoMode(mode);
 }
 
 /**
@@ -262,7 +262,7 @@ function pomoMode(currentMode) {
         startTime = longBreak;
         modeStr = 'Long Break';
     }
-    displayTime();
+    displayTime(startTime);
     modeDisplay.innerHTML = modeStr;
 }
 
