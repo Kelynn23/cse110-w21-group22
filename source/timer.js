@@ -117,7 +117,7 @@ var numPomosToLongBreak = 4;
  * @type {number}
  */
 var startTime = focusTime;
-pomoMode(mode);
+pomoMode();
 
 
 /**
@@ -130,7 +130,7 @@ function startOrReset() {
     } else if (timerStatus == RUNNING) {    //timer is about to be reset
         resetTimer();
     }
-    pomoMode(mode);
+    pomoMode();
 }
 
 /**
@@ -220,7 +220,7 @@ function pomoTransitions() {
         }
     }
     //display the time for next mode
-    pomoMode(mode);
+    pomoMode();
 }
 
 /**
@@ -251,11 +251,11 @@ function pomoEndNotif(currentMode) {
  * Set the mode for the next round of timer (0: work, 1: short break, 2:long break)
  * @param {number} currentMode - The current mode of the timer
  */
-function pomoMode(currentMode) {
-    if(currentMode == WORK) {
+function pomoMode() {
+    if(mode == WORK) {
         startTime = focusTime;
         modeStr = 'Focus';
-    } else if (currentMode == SHORT_BREAK) {
+    } else if (mode == SHORT_BREAK) {
         startTime = shortBreak;
         modeStr = 'Short Break';
     } else {
