@@ -107,7 +107,7 @@ table {
 	transform:translate(-50%,-50%);
 	font-size: x-large;
 }
-.start {
+.start, .reset {
 	display: block;
 	left: 50%;
 	position: absolute;
@@ -123,6 +123,10 @@ table {
 .start:hover{
 	background-color: #008CBA;
 	color: #FFFFFF;
+}
+
+.reset {
+	display: none;
 }
 .timercontainer {
 	background-color: white;
