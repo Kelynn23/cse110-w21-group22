@@ -1,27 +1,84 @@
 import * as logic from './logic.js';
 import * as display from './display.js';
 import * as settings from './settings.js'
+/**
+ * @file  controller.js is used to take the logic functions from logic.js and control the timer
+ * @author group 22
+ */
 
 
-
+/**
+ * Default focus time that will be used if the user does not adjust the time themselves
+ * @type {number}
+ */
 const DEFAULT_FOCUS_TIME = 10;
+/**
+ * Default short break time that will be used if the user does not adjust the time themselves
+ * @type {number}
+ */
 const DEFAULT_SHORT_BREAK_TIME = 5;
+/**
+ * Default long break time that will be used if the user does not adjust the time themselves
+ * @type {number}
+ */
 const DEFAULT_LONG_BREAK_TIME = 7;
 
+
+/**
+ * The current time for the focus mode
+ * @type {number}
+ */
 var focusTime = DEFAULT_FOCUS_TIME;
+/**
+ * The current time for the short break
+ * @type {number}
+ */
 var shortBreak = DEFAULT_SHORT_BREAK_TIME;
+/**
+ * The current time for the long break
+ * @type {number}
+ */
 var longBreak = DEFAULT_LONG_BREAK_TIME;
 
+
 // initialize with work session values
+/**
+ * The current mode of the pomo timer
+ * @type {number}
+ */
 var mode = 0;
+/**
+ * The string that will display the current mode to the user
+ * @type {string}
+ */
 var modeString = 'Focus';
+/**
+ * The string that will display the time remaining to the user which will be nicely formatted with minutes and seconds
+ * @type {string}
+ */
 var timeString = logic.getTimeString(focusTime);
+/**
+ * The remaining time left in the session
+ * @type {number}
+ */
 var currentSessionTime = focusTime;
 
+/**
+ * The number of pomos that have been completed
+ * @type {number}
+ */
 var numPomos = 0;
+/**
+ * The number of pomos that must be compeleted before a long break
+ * @type {number}
+ */
 var numPomosToLongBreak = 4;
 
-// stores id returned from setInterval in logic.timer() 
+ 
+/**
+ * Stores id returned from setInterval in logic.timer() 
+ * @type {number}
+ */
 var timerID;
 
 // event listeners for start and reset buttons
@@ -31,14 +88,19 @@ settings.setUpSettings(updateTimeSettings);
 
 updateView();
 
-// start the timer
+/**
+ * Starts the timer
+ */
 function startTimer() { 
     timerID = logic.timer(currentSessionTime, update);
     display.showResetBtn();
     display.hideSettingsButton();
 }
 
-/* stop timer and reset to beginning of a work session
+
+
+/**
+ * Stops the timer and reset to beginning of a work session,
  * this function is only called when user clicks the reset button
  */
 function resetTimer() {
@@ -50,9 +112,12 @@ function resetTimer() {
     updateView();
 }
 
-/* clear timer and display the right buttons
- * this function is called by update() when time runs out,
- * and by resetTimer() when the user clicks the reset button 
+
+
+/**
+ * Clears the timer and displays the right buttons,
+ * this function is called by update() when time runs out, 
+ * or by resetTimer() when the user clicks the reset button
  */
 function stopTimer() {
     clearInterval(timerID);
@@ -60,10 +125,12 @@ function stopTimer() {
     display.showSettingsButton();
 }
 
-/* callback function for the timer to call every second
+/**
+ * Callback function for the timer to call every second
  * stops timer and creates notification when time runs out
  * uses helper functions from logic.js to update variables when the time runs out
  * calls the updateView function to update browser contents
+ * @param {number} time - the total time in seconds
  */
 function update(time) {
     if (time == 0) {
@@ -78,17 +145,20 @@ function update(time) {
         
         updateView();
 
-        if(settings.autoStartOn()) {
+        if (settings.autoStartOn()) {
             startTimer();
         } 
-    }
-    else {
+    } else {
         timeString = logic.getTimeString(time);
         updateView();
     }
 }
 
-// use display functions to update the display
+
+
+/**
+ * Calls display functions from display.js to update the display
+ */
 function updateView() { 
     display.displayTime(timeString); 
     display.displayMode(modeString);
@@ -96,20 +166,25 @@ function updateView() {
     display.displayPomosFinished(numPomos);
 }
 
-// notification function, called by update() when timer runs out
+
+
+/**
+ * Notification function, called by update() when timer runs out
+ * @param {number} endedMode - Mode that has just ended
+ */
 function pomoEndNotif(endedMode) {
     let notification = logic.notificationString(endedMode);
     display.titleNotification(notification);
 
-    /* only create an alert if AutoStart is turned off, 
-        (the next round won't start until the user manually accepts the alert) */
-    if(!settings.autoStartOn()) {
+    // only create an alert if AutoStart is turned off, 
+    // (the next round won't start until the user manually accepts the alert) 
+    if (!settings.autoStartOn()) {
         setTimeout(function() {alert(notification);}, 500);
     }  
 }
 
 /**
- * update the time based on user input
+ * Update the time based on user input
  */
 function updateTimeSettings() { 
     focusTime = settings.getFocusTime();

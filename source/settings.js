@@ -31,16 +31,36 @@ const settingsForm = document.getElementById("time-settings");
  */
 const submitBtn = document.getElementById("settings-submit");
 
+/**
+ * Gets input for focus time
+ * @type {element}
+ */
 const focusTimeInput = document.getElementById('focus-time');
 
+/**
+ * Gets input for short break
+ * @type {element}
+ */
 const shortBreakTimeInput = document.getElementById('short-break');
 
+/**
+ * Gets input for long break
+ * @type {element}
+ */
 const longBreakTimeInput = document.getElementById('long-break');
 
+/**
+ * Auto start toggle
+ * @type {element}
+ */
 const autoStartSetting = document.getElementById('autostart');
 
 var updateTimes = function() {};
 
+/**
+ * Sets up the settings menu so it is ready to be used
+ * @param {function} callback 
+ */
 export function setUpSettings(callback) {
   updateTimes = callback;
   settingsBtn.onclick = displayModal;
@@ -49,48 +69,76 @@ export function setUpSettings(callback) {
   settingsForm.addEventListener("submit", validation);
 }
 
+/**
+ * Sends the user input for the focus time to the controller
+ * @return {number} - The user's desired focus time
+ */
 export function getFocusTime() {
   return focusTimeInput.value; // TODO: MULTIPLY BY 60 TO GET THE ACTUAL TIME
 }
 
+/**
+ * Sends the user input for the short break to the controller
+ * @return {number} - The user's desired short break
+ */
 export function getShortBreakTime() {
   return shortBreakTimeInput.value; // TODO: MULTIPLY BY 60 TO GET THE ACTUAL TIME
 }
 
+/**
+ * Sends the user input for the long break to the controller
+ * @return {number} - The user's desired long break
+ */
 export function getLongBreakTime() {
   return longBreakTimeInput.value; // TODO: MULTIPLY BY 60 TO GET THE ACTUAL TIME
 }
 
+/**
+ * Sends the user input to see if they want auto start on or off
+ * @return {boolean} - True if they want it is on, false if they want it off
+ */
 export function autoStartOn() {
   return autoStartSetting.checked;
 }
 
 /**
- * open the modal
+ * Opens the modal
  */
 function displayModal() {
   modal.style.display = "block";
 }
 
-// close the modal
+/**
+ * Closes the modal
+ */
 function closeModal() {
   modal.style.display = "none";
 }
 
-// submit user inputs when the user clicks outside the settings box
+
+/**
+ * Submit user inputs when the user clicks outside the settings box
+ * @param {*} event - Event that is triggered
+ */
 function clickOutsideModal(event) {
   if (event.target == modal) {
     submitSettings();
   }
 }
 
-// submit the form containing the time inputs
+/**
+ * Submit the form containing the time inputs
+ */
 function submitSettings() {
   submitBtn.click();
 }
 
-// only allow user to close settings if all inputs are valid
-// update time values when settings are closed
+
+/**
+ * Only allow user to close settings if all inputs are valid,
+ * updates time values when settings is closed
+ * @param {*} event - Event that is triggered
+ */
 function validation(event) {
   event.preventDefault();
   if (checkTimeInputs()) {
@@ -108,11 +156,9 @@ function checkTimeInputs() {
 
   if (!focusTimeInput.checkValidity()) {
     valid = false;
-  }
-  else if (!shortBreakTimeInput.checkValidity()) {
+  } else if (!shortBreakTimeInput.checkValidity()) {
     valid = false;
-  }
-  else if (!longBreakTimeInput.checkValidity()) {
+  } else if (!longBreakTimeInput.checkValidity()) {
     valid = false;
   }
 

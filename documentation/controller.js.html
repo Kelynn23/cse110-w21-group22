@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: settings.js</title>
+    <title>JSDoc: Source: controller.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: settings.js</h1>
+    <h1 class="page-title">Source: controller.js</h1>
 
     
 
@@ -26,174 +26,203 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/**
- * @file checks for user input in the settings and makes changes based on it
+            <pre class="prettyprint source linenums"><code>import * as logic from './logic.js';
+import * as display from './display.js';
+import * as settings from './settings.js'
+/**
+ * @file  controller.js is used to take the logic functions from logic.js and control the timer
  * @author group 22
  */
 
-// variables for the modal and open/close buttons
 
 /**
- * The settings box
- * @type {element}
+ * Default focus time that will be used if the user does not adjust the time themselves
+ * @type {number}
  */
-const modal = document.getElementById("settingsContainer");
+const DEFAULT_FOCUS_TIME = 10;
 /**
- * Setting button
- * @type {element}
+ * Default short break time that will be used if the user does not adjust the time themselves
+ * @type {number}
  */
-const settingsBtn = document.getElementById("settingsBtn");
+const DEFAULT_SHORT_BREAK_TIME = 5;
 /**
- * Close setting button
- * @type {element}
+ * Default long break time that will be used if the user does not adjust the time themselves
+ * @type {number}
  */
-const closeBtn = document.getElementsByClassName("close")[0];
-/**
- * Form for setting inputs
- * @type {element}
- */
-const settingsForm = document.getElementById("time-settings");
-/**
- * Save settings button
- * @type {element}
- */
-const submitBtn = document.getElementById("settings-submit");
+const DEFAULT_LONG_BREAK_TIME = 7;
+
 
 /**
- * Gets input for focus time
- * @type {element}
+ * The current time for the focus mode
+ * @type {number}
  */
-const focusTimeInput = document.getElementById('focus-time');
+var focusTime = DEFAULT_FOCUS_TIME;
+/**
+ * The current time for the short break
+ * @type {number}
+ */
+var shortBreak = DEFAULT_SHORT_BREAK_TIME;
+/**
+ * The current time for the long break
+ * @type {number}
+ */
+var longBreak = DEFAULT_LONG_BREAK_TIME;
+
+
+// initialize with work session values
+/**
+ * The current mode of the pomo timer
+ * @type {number}
+ */
+var mode = 0;
+/**
+ * The string that will display the current mode to the user
+ * @type {string}
+ */
+var modeString = 'Focus';
+/**
+ * The string that will display the time remaining to the user which will be nicely formatted with minutes and seconds
+ * @type {string}
+ */
+var timeString = logic.getTimeString(focusTime);
+/**
+ * The remaining time left in the session
+ * @type {number}
+ */
+var currentSessionTime = focusTime;
 
 /**
- * Gets input for short break
- * @type {element}
+ * The number of pomos that have been completed
+ * @type {number}
  */
-const shortBreakTimeInput = document.getElementById('short-break');
+var numPomos = 0;
+/**
+ * The number of pomos that must be compeleted before a long break
+ * @type {number}
+ */
+var numPomosToLongBreak = 4;
+
+ 
+/**
+ * Stores id returned from setInterval in logic.timer() 
+ * @type {number}
+ */
+var timerID;
+
+// event listeners for start and reset buttons
+document.getElementById('starttimer').addEventListener('click', startTimer);
+document.getElementById('resettimer').addEventListener('click', resetTimer);
+settings.setUpSettings(updateTimeSettings);
+
+updateView();
 
 /**
- * Gets input for long break
- * @type {element}
+ * Starts the timer
  */
-const longBreakTimeInput = document.getElementById('long-break');
-
-/**
- * Auto start toggle
- * @type {element}
- */
-const autoStartSetting = document.getElementById('autostart');
-
-var updateTimes = function() {};
-
-/**
- * Sets up the settings menu so it is ready to be used
- * @param {function} callback 
- */
-export function setUpSettings(callback) {
-  updateTimes = callback;
-  settingsBtn.onclick = displayModal;
-  closeBtn.onclick = submitSettings;
-  window.onclick = clickOutsideModal;
-  settingsForm.addEventListener("submit", validation);
-}
-
-/**
- * Sends the user input for the focus time to the controller
- * @return {number} - The user's desired focus time
- */
-export function getFocusTime() {
-  return focusTimeInput.value; // TODO: MULTIPLY BY 60 TO GET THE ACTUAL TIME
-}
-
-/**
- * Sends the user input for the short break to the controller
- * @return {number} - The user's desired short break
- */
-export function getShortBreakTime() {
-  return shortBreakTimeInput.value; // TODO: MULTIPLY BY 60 TO GET THE ACTUAL TIME
-}
-
-/**
- * Sends the user input for the long break to the controller
- * @return {number} - The user's desired long break
- */
-export function getLongBreakTime() {
-  return longBreakTimeInput.value; // TODO: MULTIPLY BY 60 TO GET THE ACTUAL TIME
-}
-
-/**
- * Sends the user input to see if they want auto start on or off
- * @return {boolean} - True if they want it is on, false if they want it off
- */
-export function autoStartOn() {
-  return autoStartSetting.checked;
-}
-
-/**
- * Opens the modal
- */
-function displayModal() {
-  modal.style.display = "block";
-}
-
-/**
- * Closes the modal
- */
-function closeModal() {
-  modal.style.display = "none";
+function startTimer() { 
+    timerID = logic.timer(currentSessionTime, update);
+    display.showResetBtn();
+    display.hideSettingsButton();
 }
 
 
-/**
- * Submit user inputs when the user clicks outside the settings box
- * @param {*} event - Event that is triggered
- */
-function clickOutsideModal(event) {
-  if (event.target == modal) {
-    submitSettings();
-  }
-}
 
 /**
- * Submit the form containing the time inputs
+ * Stops the timer and reset to beginning of a work session,
+ * this function is only called when user clicks the reset button
  */
-function submitSettings() {
-  submitBtn.click();
+function resetTimer() {
+    stopTimer();   
+    mode = 0;
+    modeString = 'Focus';
+    timeString = logic.getTimeString(focusTime);
+    currentSessionTime = focusTime;  
+    updateView();
 }
 
 
+
 /**
- * Only allow user to close settings if all inputs are valid,
- * updates time values when settings is closed
- * @param {*} event - Event that is triggered
+ * Clears the timer and displays the right buttons,
+ * this function is called by update() when time runs out, 
+ * or by resetTimer() when the user clicks the reset button
  */
-function validation(event) {
-  event.preventDefault();
-  if (checkTimeInputs()) {
-    closeModal();
-    updateTimes();
-  }
+function stopTimer() {
+    clearInterval(timerID);
+    display.showStartBtn();
+    display.showSettingsButton();
 }
 
 /**
- * Checks the user inputs to see if they are all valid
- * @return {boolean} - true if valid, false otherwise
+ * Callback function for the timer to call every second
+ * stops timer and creates notification when time runs out
+ * uses helper functions from logic.js to update variables when the time runs out
+ * calls the updateView function to update browser contents
+ * @param {number} time - the total time in seconds
  */
-function checkTimeInputs() {
-  let valid = true;
+function update(time) {
+    if (time == 0) {
+        stopTimer();
+        pomoEndNotif(mode);
 
-  if (!focusTimeInput.checkValidity()) {
-    valid = false;
-  } else if (!shortBreakTimeInput.checkValidity()) {
-    valid = false;
-  } else if (!longBreakTimeInput.checkValidity()) {
-    valid = false;
-  }
+        mode = logic.nextMode(mode, numPomos, numPomosToLongBreak);
+        numPomos = logic.pomosFinished(mode, numPomos);       
+        modeString = logic.newModeString(mode);
+        currentSessionTime = logic.nextSessionTime(mode, focusTime, shortBreak, longBreak);
+        timeString = logic.getTimeString(currentSessionTime);
+        
+        updateView();
 
-  return valid;
+        if (settings.autoStartOn()) {
+            startTimer();
+        } 
+    } else {
+        timeString = logic.getTimeString(time);
+        updateView();
+    }
 }
 
 
+
+/**
+ * Calls display functions from display.js to update the display
+ */
+function updateView() { 
+    display.displayTime(timeString); 
+    display.displayMode(modeString);
+    display.displayTitle(timeString, modeString);
+    display.displayPomosFinished(numPomos);
+}
+
+
+
+/**
+ * Notification function, called by update() when timer runs out
+ * @param {number} endedMode - Mode that has just ended
+ */
+function pomoEndNotif(endedMode) {
+    let notification = logic.notificationString(endedMode);
+    display.titleNotification(notification);
+
+    // only create an alert if AutoStart is turned off, 
+    // (the next round won't start until the user manually accepts the alert) 
+    if (!settings.autoStartOn()) {
+        setTimeout(function() {alert(notification);}, 500);
+    }  
+}
+
+/**
+ * Update the time based on user input
+ */
+function updateTimeSettings() { 
+    focusTime = settings.getFocusTime();
+    shortBreak = settings.getShortBreakTime();
+    longBreak = settings.getLongBreakTime();
+
+    currentSessionTime = logic.nextSessionTime(mode, focusTime, shortBreak, longBreak);
+    timeString = logic.getTimeString(currentSessionTime);
+    updateView();
+}
 
 
 

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: settings.js</title>
+    <title>JSDoc: Source: logic.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: settings.js</h1>
+    <h1 class="page-title">Source: logic.js</h1>
 
     
 
@@ -27,177 +27,158 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * @file checks for user input in the settings and makes changes based on it
+ * @file logic.js is used to deal with all the logic of the timer
  * @author group 22
  */
 
-// variables for the modal and open/close buttons
+
 
 /**
- * The settings box
- * @type {element}
+ * Number id that is used to identify whether mode is focus time
+ * @type {number}
  */
-const modal = document.getElementById("settingsContainer");
-/**
- * Setting button
- * @type {element}
- */
-const settingsBtn = document.getElementById("settingsBtn");
-/**
- * Close setting button
- * @type {element}
- */
-const closeBtn = document.getElementsByClassName("close")[0];
-/**
- * Form for setting inputs
- * @type {element}
- */
-const settingsForm = document.getElementById("time-settings");
-/**
- * Save settings button
- * @type {element}
- */
-const submitBtn = document.getElementById("settings-submit");
+const WORK = 0;
 
 /**
- * Gets input for focus time
- * @type {element}
+ * Number id that is used to identify whether mode is short break
+ * @type {number}
  */
-const focusTimeInput = document.getElementById('focus-time');
+const SHORT_BREAK = 1;
+/**
+ * Number id that is used to identify whether mode is long break
+ * @type {number}
+ */
+const LONG_BREAK = 2;
 
 /**
- * Gets input for short break
- * @type {element}
+ * Seconds in minutes
+ * @type {number}
  */
-const shortBreakTimeInput = document.getElementById('short-break');
+const MINUTE = 60;
+
 
 /**
- * Gets input for long break
- * @type {element}
+ * Decrements the time every second
+ * uses a callback function to communicate with controller.js
+ * @param {number} - The total time in seconds
+ * @param {function} - Function from controller.js that will be calledback
+ * @return {number} - The id of the setInterval 
  */
-const longBreakTimeInput = document.getElementById('long-break');
-
-/**
- * Auto start toggle
- * @type {element}
- */
-const autoStartSetting = document.getElementById('autostart');
-
-var updateTimes = function() {};
-
-/**
- * Sets up the settings menu so it is ready to be used
- * @param {function} callback 
- */
-export function setUpSettings(callback) {
-  updateTimes = callback;
-  settingsBtn.onclick = displayModal;
-  closeBtn.onclick = submitSettings;
-  window.onclick = clickOutsideModal;
-  settingsForm.addEventListener("submit", validation);
-}
-
-/**
- * Sends the user input for the focus time to the controller
- * @return {number} - The user's desired focus time
- */
-export function getFocusTime() {
-  return focusTimeInput.value; // TODO: MULTIPLY BY 60 TO GET THE ACTUAL TIME
-}
-
-/**
- * Sends the user input for the short break to the controller
- * @return {number} - The user's desired short break
- */
-export function getShortBreakTime() {
-  return shortBreakTimeInput.value; // TODO: MULTIPLY BY 60 TO GET THE ACTUAL TIME
-}
-
-/**
- * Sends the user input for the long break to the controller
- * @return {number} - The user's desired long break
- */
-export function getLongBreakTime() {
-  return longBreakTimeInput.value; // TODO: MULTIPLY BY 60 TO GET THE ACTUAL TIME
-}
-
-/**
- * Sends the user input to see if they want auto start on or off
- * @return {boolean} - True if they want it is on, false if they want it off
- */
-export function autoStartOn() {
-  return autoStartSetting.checked;
-}
-
-/**
- * Opens the modal
- */
-function displayModal() {
-  modal.style.display = "block";
-}
-
-/**
- * Closes the modal
- */
-function closeModal() {
-  modal.style.display = "none";
+export function timer(time, callback) {
+    let timerID = setInterval(() => {
+        time--;
+        callback(time);
+    }, 1000);
+    return timerID;
 }
 
 
 /**
- * Submit user inputs when the user clicks outside the settings box
- * @param {*} event - Event that is triggered
+ * Returns a string showing the time in minutes in seconds
+ * @param {number} time - The total time in seconds
+ * @return {string} - A nice formated string displaying the minutes and seconds left
  */
-function clickOutsideModal(event) {
-  if (event.target == modal) {
-    submitSettings();
-  }
-}
-
-/**
- * Submit the form containing the time inputs
- */
-function submitSettings() {
-  submitBtn.click();
+export function getTimeString(time) {
+    let seconds = time % MINUTE;
+    let minutes = Math.floor((time / MINUTE));
+    if(seconds &lt; 10) seconds = '0' + seconds;
+    if(minutes &lt; 10) minutes = '0' + minutes;
+  
+    return minutes + ":" + seconds;
 }
 
 
 /**
- * Only allow user to close settings if all inputs are valid,
- * updates time values when settings is closed
- * @param {*} event - Event that is triggered
+ * Returns the next mode 
+ * @param {number} mode - Number the represents the current mode
+ * @param {number} numPomos - The number of pomos that have been completed
+ * @param {number} numPomosToLongBreak - The number of pomos that have to be compeleted before a long break
+ * @return - The next mode after the user completes the current mode
  */
-function validation(event) {
-  event.preventDefault();
-  if (checkTimeInputs()) {
-    closeModal();
-    updateTimes();
-  }
+export function nextMode(mode, numPomos, numPomosToLongBreak) {
+    let nextMode;
+    //working -> long break
+    if (numPomos % numPomosToLongBreak == numPomosToLongBreak - 1 &amp;&amp; mode == WORK) {
+        nextMode = LONG_BREAK;
+    } else if (mode == SHORT_BREAK) { //short break -> working
+        nextMode = WORK;
+    } else if (mode == WORK) {  //working -> short break
+        nextMode = SHORT_BREAK;
+    } else {     //long break -> working
+        nextMode = WORK;  
+    }
+    return nextMode;
+}
+
+
+/**
+ * Increments numPomos after a break
+ * @param {number} nextMode - Number the represents the next mode the user will begin
+ * @param {number} numPomos - The number of pomos that have been completed
+ * @return {number} - The number of pomos that have been completed after being updated
+ */
+export function pomosFinished (nextMode, numPomos) {
+    if (nextMode == WORK) {
+        numPomos++;
+    }
+    return numPomos;
+}
+
+
+/**
+ * Returns the correct modeString for the next session
+ * @param {number} nextMode - Number the represents the next mode the user will begin
+ * @return {string} - String that will be displayed to the user informing them of the next mode
+ */
+export function newModeString(nextMode) {
+    let modeString;
+    if(nextMode == WORK) {
+        modeString = 'Focus';
+    } else if (nextMode == SHORT_BREAK) {
+        modeString = 'Short Break';
+    } else {
+        modeString = 'Long Break';
+    }
+    return modeString;
 }
 
 /**
- * Checks the user inputs to see if they are all valid
- * @return {boolean} - true if valid, false otherwise
+ * Returns the amount of time for the next session
+ * @param {number} nextMode - Number that represents the next mode the user is about to start
+ * @param {number} focusTime - The total time in seconds that will be used in the focus mode
+ * @param {number} shortBreak - The total time in seconds that will be used in the short break mode
+ * @param {number} longBreak - The total time in seconds that will be used in the long break mode
+ * @return {number} - The total time in seconds that will be counted down
  */
-function checkTimeInputs() {
-  let valid = true;
-
-  if (!focusTimeInput.checkValidity()) {
-    valid = false;
-  } else if (!shortBreakTimeInput.checkValidity()) {
-    valid = false;
-  } else if (!longBreakTimeInput.checkValidity()) {
-    valid = false;
-  }
-
-  return valid;
+export function nextSessionTime(nextMode, focusTime, shortBreak, longBreak) {
+    let startTime;
+    if (nextMode == WORK) {
+        startTime = focusTime;
+    } else if (nextMode == SHORT_BREAK) {
+        startTime = shortBreak;
+    } else {
+        startTime = longBreak;
+    }
+    return startTime;
 }
 
 
-
-
-
-</code></pre>
+/**
+ * Returns the notification string for the round that just ended 
+ * @param {number} endedMode - Number that the represents the mode that has ended
+ * @return {string} - String that will be displayed to the user in the notification telling them which mode has ended
+ */
+export function notificationString(endedMode) {
+    let notification;
+    if (endedMode == WORK) {
+        notification = 'Work Session Ended';  
+    } else if (endedMode == SHORT_BREAK) {
+        notification = 'Short Break Ended';
+    } else {
+        notification = 'Long Break Ended';
+    }
+    return notification; 
+}</code></pre>
         </article>
     </section>
 
