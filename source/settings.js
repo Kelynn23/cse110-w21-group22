@@ -29,67 +29,97 @@ const settingsForm = document.getElementById("time-settings");
  * Save settings button
  * @type {element}
  */
-const submitSettings = document.getElementById("settings-submit");
+const submitBtn = document.getElementById("settings-submit");
 
-// open the modal when user clicks on settings button
-settingsBtn.onclick = displayModal;
+const focusTimeInput = document.getElementById('focus-time');
+
+const shortBreakTimeInput = document.getElementById('short-break');
+
+const longBreakTimeInput = document.getElementById('long-break');
+
+const autoStartSetting = document.getElementById('autostart');
+
+var updateTimes = function() {};
+
+export function setUpSettings(callback) {
+  updateTimes = callback;
+  settingsBtn.onclick = displayModal;
+  closeBtn.onclick = submitSettings;
+  window.onclick = clickOutsideModal;
+  settingsForm.addEventListener("submit", validation);
+}
+
+export function getFocusTime() {
+  return focusTimeInput.value; // TODO: MULTIPLY BY 60 TO GET THE ACTUAL TIME
+}
+
+export function getShortBreakTime() {
+  return shortBreakTimeInput.value; // TODO: MULTIPLY BY 60 TO GET THE ACTUAL TIME
+}
+
+export function getLongBreakTime() {
+  return longBreakTimeInput.value; // TODO: MULTIPLY BY 60 TO GET THE ACTUAL TIME
+}
+
+export function autoStartOn() {
+  return autoStartSetting.checked;
+}
 
 /**
- * open the modal when user clicks on settings button
+ * open the modal
  */
 function displayModal() {
   modal.style.display = "block";
 }
 
-// close the modal when the close button is clicked
-closeBtn.onclick = function() {
-  submitSettings.click();
+// close the modal
+function closeModal() {
+  modal.style.display = "none";
 }
 
-
-
-// close the modal when the user clicks outside the settings box
-window.onclick = function(event) {
+// submit user inputs when the user clicks outside the settings box
+function clickOutsideModal(event) {
   if (event.target == modal) {
-    submitSettings.click();
+    submitSettings();
   }
+}
+
+// submit the form containing the time inputs
+function submitSettings() {
+  submitBtn.click();
 }
 
 // only allow user to close settings if all inputs are valid
 // update time values when settings are closed
-settingsForm.addEventListener("submit", function(event) {
+function validation(event) {
   event.preventDefault();
   if (checkTimeInputs()) {
-    modal.style.display = "none";
+    closeModal();
     updateTimes();
   }
-});
-
-
-
+}
 
 /**
- * Checks the user input to see if it is valid
+ * Checks the user inputs to see if they are all valid
  * @return {boolean} - true if valid, false otherwise
  */
 function checkTimeInputs() {
-  let inputs = settingsForm.querySelectorAll("input[type='number']");
-  for (let i = 0; i < inputs.length; i++) {
-    if (!inputs[i].checkValidity()) {
-      return false;
-    }
+  let valid = true;
+
+  if (!focusTimeInput.checkValidity()) {
+    valid = false;
   }
-  return true;
+  else if (!shortBreakTimeInput.checkValidity()) {
+    valid = false;
+  }
+  else if (!longBreakTimeInput.checkValidity()) {
+    valid = false;
+  }
+
+  return valid;
 }
 
 
-/**
- * update the time based on user input
- */
-function updateTimes() {
-  // TODO: MULTIPLY THESE VALUES BY 60 TO GET THE ACTUAL TIME
-  focusTime = document.getElementById('focus-time').value; 
-  shortBreak = document.getElementById('short-break').value;
-  longBreak = document.getElementById('long-break').value;
-  pomoMode();
-}
+
+
+

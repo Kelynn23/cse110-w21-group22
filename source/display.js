@@ -4,6 +4,7 @@ const modeDisplay = document.getElementById('modeDisplay');
 const startBtn = document.getElementById('starttimer');
 const resetBtn = document.getElementById('resettimer');
 const pageTitle = document.getElementById('pageTitle');
+const pomosFinished = document.getElementById('complete');
 
 const settingsBtn = document.getElementById('settingsBtn');
 
@@ -21,7 +22,7 @@ export function displayTitle(timeString, modeString) {
 }
 
 export function displayPomosFinished(numPomos) {
-    document.getElementById('complete').innerHTML = numPomos + ' Pomos Finished';
+    pomosFinished.innerHTML = numPomos + ' Pomos Finished';
 }
 
 export function titleNotification(notification) {

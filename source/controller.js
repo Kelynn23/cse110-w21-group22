@@ -1,7 +1,8 @@
 import * as logic from './logic.js';
 import * as display from './display.js';
+import * as settings from './settings.js'
 
-const autoStartSetting = document.getElementById('autostart');
+
 
 const DEFAULT_FOCUS_TIME = 10;
 const DEFAULT_SHORT_BREAK_TIME = 5;
@@ -26,6 +27,7 @@ var timerID;
 // event listeners for start and reset buttons
 document.getElementById('starttimer').addEventListener('click', startTimer);
 document.getElementById('resettimer').addEventListener('click', resetTimer);
+settings.setUpSettings(updateTimeSettings);
 
 updateView();
 
@@ -36,14 +38,18 @@ function startTimer() {
     display.hideSettingsButton();
 }
 
-/* stop timer and reset to session work time
+/* stop timer and reset to beginning of a work session
  * this function is only called when user clicks the reset button
  */
 function resetTimer() {
-    stopTimer();
-    updateView(focusTime);
+    stopTimer();   
+    mode = 0;
+    modeString = 'Focus';
+    timeString = logic.getTimeString(focusTime);
+    currentSessionTime = focusTime;  
+    updateView();
 }
- 
+
 /* clear timer and display the right buttons
  * this function is called by update() when time runs out,
  * and by resetTimer() when the user clicks the reset button 
@@ -71,6 +77,10 @@ function update(time) {
         timeString = logic.getTimeString(currentSessionTime);
         
         updateView();
+
+        if(settings.autoStartOn()) {
+            startTimer();
+        } 
     }
     else {
         timeString = logic.getTimeString(time);
@@ -93,9 +103,22 @@ function pomoEndNotif(endedMode) {
 
     /* only create an alert if AutoStart is turned off, 
         (the next round won't start until the user manually accepts the alert) */
-    if(!autoStartSetting.checked) {
+    if(!settings.autoStartOn()) {
         setTimeout(function() {alert(notification);}, 500);
     }  
+}
+
+/**
+ * update the time based on user input
+ */
+function updateTimeSettings() { 
+    focusTime = settings.getFocusTime();
+    shortBreak = settings.getShortBreakTime();
+    longBreak = settings.getLongBreakTime();
+
+    currentSessionTime = logic.nextSessionTime(mode, focusTime, shortBreak, longBreak);
+    timeString = logic.getTimeString(currentSessionTime);
+    updateView();
 }
 
 
