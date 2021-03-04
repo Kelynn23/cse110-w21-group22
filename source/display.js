@@ -39,6 +39,8 @@ const pomosFinished = document.getElementById('complete');
  */
 const settingsBtn = document.getElementById('settingsBtn');
 
+const audio = document.getElementById('audioNotification');
+
 
 /**
  * Updates the timer display so the user can see the time tickdown like a normal digital clock
@@ -111,3 +113,11 @@ export function hideSettingsButton() {
     settingsBtn.style.display = "none";
 }
 
+/**
+ * Updates the audio source and plays the audio
+ * @param {string} sourceFile - The file location of the audio that will be played
+ */
+export function playAudio(sourceFile) {
+    audio.src = sourceFile;
+    audio.play()
+}

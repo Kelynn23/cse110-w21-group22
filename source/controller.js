@@ -175,7 +175,12 @@ function updateView() {
 function pomoEndNotif(endedMode) {
     let notification = logic.notificationString(endedMode);
     display.titleNotification(notification);
-
+    //change condition based on if they want to mute or not
+    if (0) {
+        let fileLocation = logic.notificationAudioSource(logic.nextMode(mode, numPomos, numPomosToLongBreak));
+        display.playAudio(fileLocation);
+    }
+    
     // only create an alert if AutoStart is turned off, 
     // (the next round won't start until the user manually accepts the alert) 
     if (!settings.autoStartOn()) {

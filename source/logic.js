@@ -151,3 +151,21 @@ export function notificationString(endedMode) {
     }
     return notification; 
 }
+
+/**
+ * Gets the audio location that will be played based on the next mode
+ * @param {number} nextMode Number that represents the next mode the user is about to start
+ * @return {string} - String that is the file location of the audio that will be played to the user
+ */
+export function notificationAudioSource(nextMode) {
+    let notificationAudioLocation;
+    if (nextMode == WORK) {
+        notificationAudioLocation = './assets/focusTime.wav';
+    } else if (nextMode == SHORT_BREAK) {
+        notificationAudioLocation = './assets/shortBreak.wav';
+    } else {
+        notificationAudioLocation = './assets/longBreak.wav';
+    }
+    return notificationAudioLocation;
+
+}
