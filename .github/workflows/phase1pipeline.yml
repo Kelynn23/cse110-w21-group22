@@ -10,9 +10,4 @@ jobs:
       run: npm install --save-dev jest
     - name: Run tests
       run: npm run test 
-    - name: Build
-      uses: andstor/jsdoc-action@v1
-      with:
-        source_dir: ./source
-        recurse: true
-        output_dir: ./documentation
+
