@@ -1,6 +1,6 @@
 const logic = require('../logicFunctions');
 
-describe ('Testing if notificationString() returns all the correct strings to be displayed', ()=> {
+describe('Testing if notificationString() returns all the correct strings to be displayed', ()=> {
 
     test('endedMode is 0, expecting "Work Session Ended"', () => {
         let endedMode = 0;

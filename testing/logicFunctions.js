@@ -117,4 +117,9 @@ module.exports = {
     pomosFinished, 
     getTimeString,
     notificationString,
+    notificationAudioSource,
+    timer, 
+    nextMode,
+    nextSessionTime,
+    newModeString,
 }
