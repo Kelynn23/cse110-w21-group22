@@ -1,4 +1,4 @@
-# 
+# UI Design
 
 * Status: [accepted]
 * Deciders: [Brian, Kendall, Chanly, Yihe, Nicholas, Jennifer, Kelynn, Kevin, Catherine]
