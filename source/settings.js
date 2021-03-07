@@ -55,6 +55,19 @@ const longBreakTimeInput = document.getElementById('long-break');
  */
 const autoStartSetting = document.getElementById('autostart');
 
+
+/**
+ * Get user input for voice sound
+ * @type {element}
+ */
+const voiceSound = document.getElementById('radio-voice');
+
+/**
+ * Get user input for ding sound
+ * @type {element}
+ */
+const dingSound = document.getElementById('radio-ding');
+
 var updateTimes = function() {};
 
 /**
@@ -100,6 +113,23 @@ export function getLongBreakTime() {
 export function autoStartOn() {
   return autoStartSetting.checked;
 }
+
+/**
+ * Sends the user input to see if they want voice sound on or off
+ * @return {boolean} - True if they want it is on, false if they want it off
+ */
+export function voiceSoundOn() {
+  return voiceSound.checked;
+}
+
+/**
+ * Sends the user input to see if they want ding sound on or off
+ * @return {boolean} - True if they want it is on, false if they want it off
+ */
+export function dingSoundOn() {
+  return dingSound.checked;
+}
+
 
 /**
  * Opens the modal

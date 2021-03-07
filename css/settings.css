@@ -92,3 +92,18 @@
     /* hide submit button */
     display: none;
 } 
+
+fieldset {
+    border: none;
+  }
+  
+#audio-selection {
+    align-items        : center;
+    display            : grid;
+    grid-template-areas: 'air car party';
+    justify-items      : center;
+}
+
+
+
+

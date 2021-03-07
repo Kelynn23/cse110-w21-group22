@@ -176,8 +176,9 @@ function pomoEndNotif(endedMode) {
     let notification = logic.notificationString(endedMode);
     display.titleNotification(notification);
     //change condition based on if they want to mute or not
-    if (0) {
-        let fileLocation = logic.notificationAudioSource(logic.nextMode(mode, numPomos, numPomosToLongBreak));
+    if (1) {
+        let fileLocation = logic.notificationAudioSource(logic.nextMode(mode, numPomos, numPomosToLongBreak), settings.voiceSoundOn());
+        console.log(fileLocation);
         display.playAudio(fileLocation);
     }
     

@@ -29,6 +29,7 @@
 				</section>
 			</section>
 		</div>
+		<audio id="audioNotification" src="./assets/ding.wav"></audio>
 	</main>
 
 	<!-- Settings Modal -->
@@ -56,6 +57,17 @@
 					<br>
 					<input id="settings-submit" type="submit">
 				</form>
+
+				<fieldset id="audio-selection">
+					<div id="radio-voice-container">
+					  <input type="radio" id="radio-voice" name="radio-sound" checked>
+					  <label for="radio-voice">Voice</label>
+					</div>
+					<div id="radio-ding-container">
+					  <input type="radio" id="radio-ding" name="radio-sound">
+					  <label for="radio-ding">Ding</label>
+					</div>
+				</fieldset>
 			</section>
 
 		</div>
