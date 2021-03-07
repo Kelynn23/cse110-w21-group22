@@ -25,11 +25,14 @@ function addTask() {
       return;
     }
     item.innerHTML = itemText;
-    item.addEventListener('click', function() { //onclick the entry will strikethrough
-      item.classList.add('taskclicked');
-    })
+    item.addEventListener('click', function(item) { //onclick the entry will strikethrough
+      //item.classList.add('taskclicked');
+      let element = item.target;
+      element.parentNode.removeChild(element);
+    });
 
     taskList.appendChild(item); //add to list
+    document.getElementById("taskInput").reset();
     input.style.display = "none"; //hide input field
   }
 }
