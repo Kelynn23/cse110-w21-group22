@@ -1,4 +1,4 @@
-# [Restructure the code so it uses modules to make it more maintainable]
+# 
 
 * Status: [accepted]
 * Deciders: [Brian, Kendall, Chanly, Yihe, Nicholas, Jennifer, Kelynn, Kevin, Catherine]
@@ -19,13 +19,13 @@ We settled on features and now need a UI design
 
 ## Considered Options
 
-* [#1](img/design-option-1.png) [https://youtu.be/D03nxURWssc](https://youtu.be/D03nxURWssc)
-* [#2](img/design-option-2.png) [https://youtu.be/L5qrPKBXScE](https://youtu.be/L5qrPKBXScE)
-* [#3](img/design-option-3.png) [https://youtu.be/SroILT3X9Q4](https://youtu.be/SroILT3X9Q4)
-* [#4](img/design-option-4.png)
+* Design: [#1](img/design-option-1.png) | Video: [https://youtu.be/D03nxURWssc](https://youtu.be/D03nxURWssc)
+* Design: [#2](img/design-option-2.png) | Video: [https://youtu.be/L5qrPKBXScE](https://youtu.be/L5qrPKBXScE)
+* Design: [#3](img/design-option-3.png) | Video: [https://youtu.be/SroILT3X9Q4](https://youtu.be/SroILT3X9Q4)
+* Design: [#4](img/design-option-4.png)
 
 We had a team vote with 3 for #1, 1 for #2, 0 for #3, 3 for #4. Because of this, we made #5 which combined our favorite features of #1 and #4.
-* [#5](img/design-option-5.jpg)
+* Design: [#5](img/design-option-5.jpg)
 
 ## Decision Outcome
 
