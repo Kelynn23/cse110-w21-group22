@@ -64,3 +64,8 @@ beforeEach(() => {
     cy.get('#timerDisplay').should('have.text', '00:10');
     cy.get('#settingsBtn').should('be.enabled');
   });
+
+  it('Timer Resizes For Smaller Window',() =>{
+    cy.viewport(520, 750)
+    cy.get('.timer').should('have.css', 'font-size', '52px');
+  });
