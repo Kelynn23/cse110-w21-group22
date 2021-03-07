@@ -37,6 +37,7 @@ beforeEach(() => {
     cy.tick(1000);
     cy.get('#resettimer').click();
     cy.get('#timerDisplay').should('have.text', '00:10');
+    cy.get('#settingsBtn').should('be.enabled');
   });
 
 
@@ -61,4 +62,5 @@ beforeEach(() => {
     cy.tick(1000);
     cy.get('#resettimer').click();
     cy.get('#timerDisplay').should('have.text', '00:10');
+    cy.get('#settingsBtn').should('be.enabled');
   });
