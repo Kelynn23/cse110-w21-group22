@@ -1,6 +1,6 @@
 beforeEach(() => {
     cy.clock();
-    cy.visit('http://127.0.0.1:5500/index.html');
+    cy.visit('https://kelynn23.github.io/cse110-w21-group22/');
   });
 
   it('First Test', () => {
