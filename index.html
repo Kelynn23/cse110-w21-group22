@@ -36,25 +36,30 @@
 	<div id="settingsContainer" class="modal">		
 		<div class="modal-content">
 			<span class="close">&times;</span>
-			<br>
+			<h3 id="settings-title">Settings</h3>
 			<section>
-				<label for="autostart" class="toggleLabel">AutoStart</label>
-				<input type="checkbox" id="autostart" class="checkbox" />
-				<label for="autostart" class="switch"></label>
-				<br>
+				<div class="toggle-setting">
+					<label for="autostart" class="toggleLabel">AutoStart</label>
+					<input type="checkbox" id="autostart" class="checkbox" />
+					<label for="autostart" class="switch"></label>
+				</div>
+				
 				<form id="time-settings">
-					<label for="focus-time">Focus Time</label>
-					<input id="focus-time" name="focus-time" type="number" min="1" max="60"
-				value="25" required>
-					<br>
-					<label for="short-break">Short Break</label>
-					<input id="short-break" name="short-break" type="number" min="1" max="60"
-				value="5" required>
-					<br>
-					<label for="long-break">Long Break</label>
-					<input id="long-break" name="long-break" type="number" min="1" max="60"
-				value="15" required>
-					<br>
+					<div class="time-setting">
+						<label for="focus-time">Focus Time</label>
+						<input id="focus-time" name="focus-time" type="number" min="1" max="60"
+							value="25" required>
+					</div>
+					<div class="time-setting">
+						<label for="short-break">Short Break</label>
+						<input id="short-break" name="short-break" type="number" min="1" max="60"
+							value="5" required>
+					</div>					
+					<div class="time-setting">
+						<label for="long-break">Long Break</label>
+						<input id="long-break" name="long-break" type="number" min="1" max="60"
+							value="15" required>
+					</div>
 					<input id="settings-submit" type="submit">
 				</form>
 
