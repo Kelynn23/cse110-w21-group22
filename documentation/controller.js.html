@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: controller.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: controller.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import * as logic from './logic.js';
+import * as display from './display.js';
+import * as settings from './settings.js'
+/**
+ * @file  controller.js is used to take the logic functions from logic.js and control the timer
+ * @author group 22
+ */
+
+
+/**
+ * Default focus time that will be used if the user does not adjust the time themselves
+ * @type {number}
+ */
+const DEFAULT_FOCUS_TIME = 10;
+/**
+ * Default short break time that will be used if the user does not adjust the time themselves
+ * @type {number}
+ */
+const DEFAULT_SHORT_BREAK_TIME = 5;
+/**
+ * Default long break time that will be used if the user does not adjust the time themselves
+ * @type {number}
+ */
+const DEFAULT_LONG_BREAK_TIME = 7;
+
+
+/**
+ * The current time for the focus mode
+ * @type {number}
+ */
+var focusTime = DEFAULT_FOCUS_TIME;
+/**
+ * The current time for the short break
+ * @type {number}
+ */
+var shortBreak = DEFAULT_SHORT_BREAK_TIME;
+/**
+ * The current time for the long break
+ * @type {number}
+ */
+var longBreak = DEFAULT_LONG_BREAK_TIME;
+
+
+// initialize with work session values
+/**
+ * The current mode of the pomo timer
+ * @type {number}
+ */
+var mode = 0;
+/**
+ * The string that will display the current mode to the user
+ * @type {string}
+ */
+var modeString = 'Focus';
+/**
+ * The string that will display the time remaining to the user which will be nicely formatted with minutes and seconds
+ * @type {string}
+ */
+var timeString = logic.getTimeString(focusTime);
+/**
+ * The remaining time left in the session
+ * @type {number}
+ */
+var currentSessionTime = focusTime;
+
+/**
+ * The number of pomos that have been completed
+ * @type {number}
+ */
+var numPomos = 0;
+/**
+ * The number of pomos that must be compeleted before a long break
+ * @type {number}
+ */
+var numPomosToLongBreak = 4;
+
+ 
+/**
+ * Stores id returned from setInterval in logic.timer() 
+ * @type {number}
+ */
+var timerID;
+
+// event listeners for start and reset buttons
+document.getElementById('starttimer').addEventListener('click', startTimer);
+document.getElementById('resettimer').addEventListener('click', resetTimer);
+settings.setUpSettings(updateTimeSettings);
+
+updateView();
+
+/**
+ * Starts the timer
+ */
+function startTimer() { 
+    timerID = logic.timer(currentSessionTime, update);
+    display.showResetBtn();
+    display.hideSettingsButton();
+}
+
+
+
+/**
+ * Stops the timer and reset to beginning of a work session,
+ * this function is only called when user clicks the reset button
+ */
+function resetTimer() {
+    stopTimer();   
+    mode = 0;
+    modeString = 'Focus';
+    timeString = logic.getTimeString(focusTime);
+    currentSessionTime = focusTime;  
+    updateView();
+}
+
+
+
+/**
+ * Clears the timer and displays the right buttons,
+ * this function is called by update() when time runs out, 
+ * or by resetTimer() when the user clicks the reset button
+ */
+function stopTimer() {
+    clearInterval(timerID);
+    display.showStartBtn();
+    display.showSettingsButton();
+}
+
+/**
+ * Callback function for the timer to call every second
+ * stops timer and creates notification when time runs out
+ * uses helper functions from logic.js to update variables when the time runs out
+ * calls the updateView function to update browser contents
+ * @param {number} time - the total time in seconds
+ */
+function update(time) {
+    if (time == 0) {
+        stopTimer();
+        pomoEndNotif(mode);
+
+        mode = logic.nextMode(mode, numPomos, numPomosToLongBreak);
+        numPomos = logic.pomosFinished(mode, numPomos);       
+        modeString = logic.newModeString(mode);
+        currentSessionTime = logic.nextSessionTime(mode, focusTime, shortBreak, longBreak);
+        timeString = logic.getTimeString(currentSessionTime);
+        
+        updateView();
+
+        if (settings.autoStartOn()) {
+            startTimer();
+        } 
+    } else {
+        timeString = logic.getTimeString(time);
+        updateView();
+    }
+}
+
+
+
+/**
+ * Calls display functions from display.js to update the display
+ */
+function updateView() { 
+    display.displayTime(timeString); 
+    display.displayMode(modeString);
+    display.displayTitle(timeString, modeString);
+    display.displayPomosFinished(numPomos);
+}
+
+
+
+/**
+ * Notification function, called by update() when timer runs out
+ * @param {number} endedMode - Mode that has just ended
+ */
+function pomoEndNotif(endedMode) {
+    let notification = logic.notificationString(endedMode);
+    display.titleNotification(notification);
+    //change condition based on if they want to mute or not
+    if (0) {
+        let fileLocation = logic.notificationAudioSource(logic.nextMode(mode, numPomos, numPomosToLongBreak));
+        display.playAudio(fileLocation);
+    }
+    
+    // only create an alert if AutoStart is turned off, 
+    // (the next round won't start until the user manually accepts the alert) 
+    if (!settings.autoStartOn()) {
+        setTimeout(function() {alert(notification);}, 500);
+    }  
+}
+
+/**
+ * Update the time based on user input
+ */
+function updateTimeSettings() { 
+    focusTime = settings.getFocusTime();
+    shortBreak = settings.getShortBreakTime();
+    longBreak = settings.getLongBreakTime();
+
+    currentSessionTime = logic.nextSessionTime(mode, focusTime, shortBreak, longBreak);
+    timeString = logic.getTimeString(currentSessionTime);
+    updateView();
+}
+
+
+
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#autoStartOn">autoStartOn</a></li><li><a href="global.html#autoStartSetting">autoStartSetting</a></li><li><a href="global.html#checkTimeInputs">checkTimeInputs</a></li><li><a href="global.html#clickOutsideModal">clickOutsideModal</a></li><li><a href="global.html#closeBtn">closeBtn</a></li><li><a href="global.html#closeModal">closeModal</a></li><li><a href="global.html#currentSessionTime">currentSessionTime</a></li><li><a href="global.html#DEFAULT_FOCUS_TIME">DEFAULT_FOCUS_TIME</a></li><li><a href="global.html#DEFAULT_LONG_BREAK_TIME">DEFAULT_LONG_BREAK_TIME</a></li><li><a href="global.html#DEFAULT_POMO_TIME">DEFAULT_POMO_TIME</a></li><li><a href="global.html#DEFAULT_SHORT_BREAK_TIME">DEFAULT_SHORT_BREAK_TIME</a></li><li><a href="global.html#displayModal">displayModal</a></li><li><a href="global.html#displayMode">displayMode</a></li><li><a href="global.html#displayPomosFinished">displayPomosFinished</a></li><li><a href="global.html#displayTime">displayTime</a></li><li><a href="global.html#displayTimer">displayTimer</a></li><li><a href="global.html#displayTitle">displayTitle</a></li><li><a href="global.html#focusTime">focusTime</a></li><li><a href="global.html#focusTimeInput">focusTimeInput</a></li><li><a href="global.html#getFocusTime">getFocusTime</a></li><li><a href="global.html#getLongBreakTime">getLongBreakTime</a></li><li><a href="global.html#getShortBreakTime">getShortBreakTime</a></li><li><a href="global.html#getTimeString">getTimeString</a></li><li><a href="global.html#hideSettingsButton">hideSettingsButton</a></li><li><a href="global.html#LONG_BREAK">LONG_BREAK</a></li><li><a href="global.html#longBreak">longBreak</a></li><li><a href="global.html#longBreakTimeInput">longBreakTimeInput</a></li><li><a href="global.html#MINUTE">MINUTE</a></li><li><a href="global.html#modal">modal</a></li><li><a href="global.html#mode">mode</a></li><li><a href="global.html#modeDisplay">modeDisplay</a></li><li><a href="global.html#modeStr">modeStr</a></li><li><a href="global.html#modeString">modeString</a></li><li><a href="global.html#newModeString">newModeString</a></li><li><a href="global.html#nextMode">nextMode</a></li><li><a href="global.html#nextSessionTime">nextSessionTime</a></li><li><a href="global.html#NOT_STARTED">NOT_STARTED</a></li><li><a href="global.html#notificationAudioSource">notificationAudioSource</a></li><li><a href="global.html#notificationString">notificationString</a></li><li><a href="global.html#numPomos">numPomos</a></li><li><a href="global.html#numPomosToLongBreak">numPomosToLongBreak</a></li><li><a href="global.html#pageTitle">pageTitle</a></li><li><a href="global.html#playAudio">playAudio</a></li><li><a href="global.html#pomoEndNotif">pomoEndNotif</a></li><li><a href="global.html#pomoMode">pomoMode</a></li><li><a href="global.html#pomosFinished">pomosFinished</a></li><li><a href="global.html#pomoTransitions">pomoTransitions</a></li><li><a href="global.html#resetBtn">resetBtn</a></li><li><a href="global.html#resetTimer">resetTimer</a></li><li><a href="global.html#RUNNING">RUNNING</a></li><li><a href="global.html#settingsBtn">settingsBtn</a></li><li><a href="global.html#settingsForm">settingsForm</a></li><li><a href="global.html#setUpSettings">setUpSettings</a></li><li><a href="global.html#SHORT_BREAK">SHORT_BREAK</a></li><li><a href="global.html#shortBreak">shortBreak</a></li><li><a href="global.html#shortBreakTimeInput">shortBreakTimeInput</a></li><li><a href="global.html#showResetBtn">showResetBtn</a></li><li><a href="global.html#showSettingsButton">showSettingsButton</a></li><li><a href="global.html#showStartBtn">showStartBtn</a></li><li><a href="global.html#startBtn">startBtn</a></li><li><a href="global.html#startButton">startButton</a></li><li><a href="global.html#startOrReset">startOrReset</a></li><li><a href="global.html#startTime">startTime</a></li><li><a href="global.html#startTimer">startTimer</a></li><li><a href="global.html#stopTimer">stopTimer</a></li><li><a href="global.html#submitBtn">submitBtn</a></li><li><a href="global.html#submitSettings">submitSettings</a></li><li><a href="global.html#timer">timer</a></li><li><a href="global.html#timerDisplay">timerDisplay</a></li><li><a href="global.html#timerID">timerID</a></li><li><a href="global.html#timerInterval">timerInterval</a></li><li><a href="global.html#timerSound">timerSound</a></li><li><a href="global.html#timerStatus">timerStatus</a></li><li><a href="global.html#timeString">timeString</a></li><li><a href="global.html#titleNotification">titleNotification</a></li><li><a href="global.html#update">update</a></li><li><a href="global.html#updateTimeSettings">updateTimeSettings</a></li><li><a href="global.html#updateView">updateView</a></li><li><a href="global.html#validation">validation</a></li><li><a href="global.html#WORK">WORK</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Wed Mar 03 2021 23:57:17 GMT-0800 (Pacific Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
