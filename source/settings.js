@@ -55,6 +55,12 @@ const longBreakTimeInput = document.getElementById('long-break');
  */
 const autoStartSetting = document.getElementById('autostart');
 
+/**
+ * Mute toggle
+ * @type {element}
+ */
+ const muteSetting = document.getElementById('mute');
+
 
 /**
  * Get user input for voice sound
@@ -112,6 +118,14 @@ export function getLongBreakTime() {
  */
 export function autoStartOn() {
   return autoStartSetting.checked;
+}
+
+/**
+ * Sends the user input to see if they want to mute
+ * @return {boolean} - True if they want to mute, false if they do not want to mute
+ */
+ export function muteOn() {
+  return muteSetting.checked;
 }
 
 /**
