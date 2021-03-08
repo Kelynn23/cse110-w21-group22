@@ -41,6 +41,7 @@ const settingsBtn = document.getElementById('settingsBtn');
 
 const audio = document.getElementById('audioNotification');
 
+const background = document.getElementsByTagName('body')[0];
 
 /**
  * Updates the timer display so the user can see the time tickdown like a normal digital clock
@@ -56,6 +57,7 @@ export function displayTime(timeString) {
  */
 export function displayMode(modeString) {
     modeDisplay.innerHTML = modeString;
+    background.setAttribute('class',modeString);
 }
 
 /**
