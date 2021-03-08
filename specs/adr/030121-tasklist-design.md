@@ -20,7 +20,7 @@ Part of the pomodoro technique is having a tasklist to record your progress in y
 Chosen option: The tasklist was made into a single file because it was easiest to write this way.
 ### Positive Consequences
 
-*Code is together and easier to understand and maintain
+* Code is together and easier to understand and maintain
 
 ### Negative Consequences
 
