@@ -10,15 +10,6 @@ body,html {
 	min-width: 100px;
 	font-family: 'DM Sans', sans-serif;
 }
-/*
-.timercontainer button {
-	background-color: transparent;
-	border: none;
-	border-radius: 3px;
-	display: block;
-	position: absolute;
-}
-*/
 button {
 	background-color: #FFFFFF;
 	border: 2px solid #008CBA;
@@ -55,6 +46,17 @@ table {
 	height: 100%;
 	width: 100%;
 }
+h2 {
+	padding: 10px;
+}
+p {
+	padding: 10px;
+}
+ol {
+  list-style-position: inside;
+  padding: 0px 10px 10px 10px;
+}
+
 .complete {
 	background-color: white;
 	border-radius: 10px;
@@ -73,14 +75,54 @@ table {
 }
 .tasklistadd {
 	border: 2px solid #008CBA;
+	margin-top: 0;
+	margin-bottom: 5px;
 	padding-top: 5px;
 	padding-bottom: 5px;
 	padding-right: 15px;
 	padding-left: 15px;
 }
+.tasklisth2 {
+	margin-bottom: 8px;
+}
 .tasklistadd:hover{
 	background-color: #008CBA;
 	color: #FFFFFF;
+}
+.taskinput {
+	margin-bottom: -1;
+}
+#tlist {
+  margin-top: 0px;
+  border-top: 0px; 
+  max-width:500px;
+  word-wrap:break-word;
+  text-align:left;
+}
+.tlist:hover {
+	text-decoration: line-through;
+}
+.taskclicked {
+	text-decoration: line-through;
+}
+#taskInput {
+  	padding-top: 6px;
+	padding-bottom: 5px;
+	padding-right: 15px;
+	padding-left: 15px;
+	/*display:none;*/
+}
+.sameLine {
+	white-space: nowrap;
+}
+input[type=text] {
+	box-sizing: border-box;
+	font-size: 20px;
+	padding: 3px;
+	align-items: center;
+}
+form button {
+	width:35%;
 }
 .right {
 	display: inline-block;
@@ -124,7 +166,6 @@ table {
 	background-color: #008CBA;
 	color: #FFFFFF;
 }
-
 .reset {
 	display: none;
 }
@@ -142,6 +183,14 @@ table {
 	height: 100%;
 	position: absolute;
 	width: 100%;
+}
+#task {
+	width: 60%;
+	font-family: 'DM Sans', sans-serif;
+	font-size:16px;
+	border-color: darkgrey;
+	border-style: solid;
+	border-radius: 5px;
 }
 #settingsBtn {
 	border: 2px solid #008CBA;
