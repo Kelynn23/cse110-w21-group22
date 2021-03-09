@@ -24,8 +24,12 @@
 			<section class="right">
 				<div class="complete"><h2 id='complete'>0 Pomos Finished</h2></div>
 				<section class="tasklist">
-					<h2>Tasklist</h2>
-					<button title="Add task" id="addtask" class="tasklistadd" type="button">Add task</button>
+					<h2 style>Tasklist</h2>
+          <form id = "taskInput">
+            <input type = "text" id = "task"/>
+          </form>
+					<button title="Add task" id="addtask" class="tasklistadd" type="button">Add task</button>          
+        <ul id = "tlist"></ul>
 				</section>
 			</section>
 		</div>
@@ -62,6 +66,7 @@
 	</div>
 
 	<script src="./source/controller.js" type="module"></script>
+  <script src="./source/tasklist.js"></script>
 	
 </body>
 </html>
