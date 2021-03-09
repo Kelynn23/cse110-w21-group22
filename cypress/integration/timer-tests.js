@@ -26,10 +26,11 @@ beforeEach(() => {
   });
 
 
-  it('Timer Run Enable Reset Button',() =>{
+  it('Timer Run Enable Reset Disable Start Btn',() =>{
     cy.get('#starttimer').click();
     cy.tick(1000);
     cy.get('#resettimer').should('be.enabled');
+    cy.get('#starttimer').should('have.attr', 'style', 'display: none;');
   });
 
   it('Reset Timer During Work Session',() =>{
