@@ -138,6 +138,7 @@ function startOrReset() {
  */
 function startTimer() {
     settingsBtn.style.display = "none";
+    infoBtn.style.display = "none";
     timerInterval = setInterval(timer, 1000);
     startButton.innerHTML = 'Reset';
     //timer is now running, set flag
@@ -150,6 +151,7 @@ function startTimer() {
  */
 function resetTimer() {
     settingsBtn.style.display = "initial";
+    infoBtn.style.display = "intiial";
     clearInterval(timerInterval);
     mode = WORK;
     startButton.innerHTML = 'Start';
@@ -170,6 +172,7 @@ function timer() {
     //timer reaches 00:00
     if(startTime <= 0) {
         settingsBtn.style.display = "initial";
+        infoBtn.style.display = "initial";
         clearInterval(timerInterval);
         startButton.innerHTML = 'Start';
         timerStatus = NOT_STARTED;

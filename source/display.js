@@ -38,6 +38,11 @@ const pomosFinished = document.getElementById('complete');
  * @type {element}
  */
 const settingsBtn = document.getElementById('settingsBtn');
+/**
+ * Button to open info
+ * @type {element}
+ */
+const infoBtn = document.getElementById('infoBtn');
 
 const audio = document.getElementById('audioNotification');
 
@@ -56,6 +61,22 @@ export function displayTime(timeString) {
  */
 export function displayMode(modeString) {
     modeDisplay.innerHTML = modeString;
+	if(settings.darkModeBtn.checked()) {
+		if(modeString=='Focus') {
+			document.getElementsByTagName('body')[0].setAttribute('id','dark-Focus');
+		}
+		else {
+			document.getElementsByTagName('body')[0].setAttribute('id','dark-Break');
+		}
+	}
+	else {
+		if(modeString=='Focus') {
+			document.getElementsByTagName('body')[0].setAttribute('id','Focus');
+		}
+		else {
+			document.getElementsByTagName('body')[0].setAttribute('id','Break');
+		}
+	}
 }
 
 /**
@@ -107,10 +128,24 @@ export function showSettingsButton() {
 }
 
 /**
+ * Displays the info button
+ */
+export function showInfoButton() {
+    infoBtn.style.display = "initial";
+}
+
+/**
  * Hides the settings button
  */
 export function hideSettingsButton() {
     settingsBtn.style.display = "none";
+}
+
+/**
+ * Hides the info button
+ */
+export function hideInfoButton() {
+    infoBtn.style.display = "none";
 }
 
 /**

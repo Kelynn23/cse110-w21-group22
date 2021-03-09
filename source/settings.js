@@ -11,15 +11,30 @@
  */
 const modal = document.getElementById("settingsContainer");
 /**
+ * The info box
+ * @type {element}
+ */
+const infoModal = document.getElementById("infoContainer");
+/**
  * Setting button
  * @type {element}
  */
 const settingsBtn = document.getElementById("settingsBtn");
 /**
+ * Setting button
+ * @type {element}
+ */
+const infoBtn = document.getElementById("infoBtn");
+/**
  * Close setting button
  * @type {element}
  */
 const closeBtn = document.getElementsByClassName("close")[0];
+/**
+ * Close info button
+ * @type {element}
+ */
+const closeBtnInfo = document.getElementsByClassName("close")[1];
 /**
  * Form for setting inputs
  * @type {element}
@@ -55,6 +70,12 @@ const longBreakTimeInput = document.getElementById('long-break');
  */
 const autoStartSetting = document.getElementById('autostart');
 
+/**
+ * Auto start toggle
+ * @type {element}
+ */
+ const darkModeBtn = document.getElementById('dark-mode');
+
 var updateTimes = function() {};
 
 /**
@@ -64,9 +85,12 @@ var updateTimes = function() {};
 export function setUpSettings(callback) {
   updateTimes = callback;
   settingsBtn.onclick = displayModal;
+  infoBtn.onclick = displayInfoModal;
   closeBtn.onclick = submitSettings;
+  closeBtnInfo.onclick = submitSettings;
   window.onclick = clickOutsideModal;
   settingsForm.addEventListener("submit", validation);
+  darkModeBtn.onclick = switchDarkMode;
 }
 
 /**
@@ -102,18 +126,33 @@ export function autoStartOn() {
 }
 
 /**
- * Opens the modal
+ * Opens the settings modal
  */
-function displayModal() {
+export function displayModal() {
   modal.style.display = "block";
 }
 
 /**
- * Closes the modal
+ * Opens the info modal
  */
-function closeModal() {
+function displayInfoModal() {
+  infoModal.style.display = "block";
+}
+
+/**
+ * Closes the settings modal
+ */
+export function closeModal() {
   modal.style.display = "none";
 }
+
+/**
+ * Closes the info modal
+ */
+function closeInfoModal() {
+  infoModal.style.display = "none";
+}
+
 
 
 /**
@@ -121,8 +160,8 @@ function closeModal() {
  * @param {*} event - Event that is triggered
  */
 function clickOutsideModal(event) {
-  if (event.target == modal) {
-    submitSettings();
+  if (event.target == modal || event.target == infoModal) {
+    submitSettings(); /* IT WORKS */
   }
 }
 
@@ -143,6 +182,7 @@ function validation(event) {
   event.preventDefault();
   if (checkTimeInputs()) {
     closeModal();
+    closeInfoModal();
     updateTimes();
   }
 }
@@ -163,6 +203,34 @@ function checkTimeInputs() {
   }
 
   return valid;
+}
+
+function switchDarkMode() {
+
+  if (darkModeBtn.checked) {
+	document.getElementsByTagName('header')[0].setAttribute('id','dark');
+	document.getElementsByClassName('complete')[0].setAttribute('id','dark');
+	document.getElementsByClassName('timercontainer')[0].setAttribute('id','dark');
+	document.getElementsByClassName('tasklist')[0].setAttribute('id','dark');
+	if (document.getElementsByTagName('body')[0].getAttribute('id')=='Focus') {
+		document.getElementsByTagName('body')[0].setAttribute('id','dark-Focus');
+	}
+	else {
+		document.getElementByTagName('body')[0].setAttribute('id','dark-Break');
+	}
+  }
+  else {
+    document.getElementsByClassName('complete')[0].setAttribute('id','');
+	document.getElementsByTagName('header')[0].setAttribute('id','');
+	document.getElementsByClassName('timercontainer')[0].setAttribute('id','');
+	document.getElementsByClassName('tasklist')[0].setAttribute('id','');
+	if (document.getElementsByTagName('body')[0].getAttribute('id')=='dark-Focus') {
+		document.getElementsByTagName('body')[0].setAttribute('id','Focus');
+	}
+	else {
+		document.getElementByTagName('body')[0].setAttribute('id','Break');
+	}
+  }
 }
 
 
