@@ -1,3 +1,4 @@
+
 /**
  * @file display.js deals with all the html stuff that needs be changed
  * @author group 22
@@ -46,6 +47,12 @@ const infoBtn = document.getElementById('infoBtn');
 
 const audio = document.getElementById('audioNotification');
 
+/**
+ * Button to open info
+ * @type {element}
+ */
+const darkModeBtn = document.getElementById('dark-mode');
+
 
 /**
  * Updates the timer display so the user can see the time tickdown like a normal digital clock
@@ -61,7 +68,7 @@ export function displayTime(timeString) {
  */
 export function displayMode(modeString) {
     modeDisplay.innerHTML = modeString;
-	if(settings.darkModeBtn.checked()) {
+	if(darkModeBtn.checked) {
 		if(modeString=='Focus') {
 			document.getElementsByTagName('body')[0].setAttribute('id','dark-Focus');
 		}

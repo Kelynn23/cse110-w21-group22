@@ -212,11 +212,12 @@ function switchDarkMode() {
 	document.getElementsByClassName('complete')[0].setAttribute('id','dark');
 	document.getElementsByClassName('timercontainer')[0].setAttribute('id','dark');
 	document.getElementsByClassName('tasklist')[0].setAttribute('id','dark');
+	document.getElementsByClassName('logo')[0].setAttribute('id','dark');
 	if (document.getElementsByTagName('body')[0].getAttribute('id')=='Focus') {
 		document.getElementsByTagName('body')[0].setAttribute('id','dark-Focus');
 	}
 	else {
-		document.getElementByTagName('body')[0].setAttribute('id','dark-Break');
+		document.getElementsByTagName('body')[0].setAttribute('id','dark-Break');
 	}
   }
   else {
@@ -224,6 +225,7 @@ function switchDarkMode() {
 	document.getElementsByTagName('header')[0].setAttribute('id','');
 	document.getElementsByClassName('timercontainer')[0].setAttribute('id','');
 	document.getElementsByClassName('tasklist')[0].setAttribute('id','');
+	document.getElementsByClassName('logo')[0].setAttribute('id','');
 	if (document.getElementsByTagName('body')[0].getAttribute('id')=='dark-Focus') {
 		document.getElementsByTagName('body')[0].setAttribute('id','Focus');
 	}
