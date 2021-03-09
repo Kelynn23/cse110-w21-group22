@@ -3,7 +3,7 @@ beforeEach(() => {
     cy.visit('https://kelynn23.github.io/cse110-w21-group22/');
 
     cy.get('#settingsBtn').click();
-    cy.get('.switch').click();
+    cy.get('.switch').first().click();
     cy.get('.close').click();
   });
 
