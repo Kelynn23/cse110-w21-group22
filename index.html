@@ -8,9 +8,10 @@
 </head>
 <body>
     <header>
-		<a href="https://github.com/Kelynn23/cse110-w21-group22"><div id="logo">Logo</div></a>
+		<a href="https://github.com/Kelynn23/cse110-w21-group22"><div class="logo">Powelldoro Timer</div></a>
 		<nav>
 			<!-- <button title="Add event" class="Add" type="submit">+</button> -->
+			<button title="Info" id="infoBtn">Help</button>
 			<button title="Settings" id="settingsBtn">Settings</button>
 		</nav>
 	</header>
@@ -24,13 +25,41 @@
 			<section class="right">
 				<div class="complete"><h2 id='complete'>0 Pomos Finished</h2></div>
 				<section class="tasklist">
-					<h2>Tasklist</h2>
-					<button title="Add task" id="addtask" class="tasklistadd" type="button">Add task</button>
+					<h2 class="tasklisth2">Tasklist</h2>
+					<div class="sameLine">
+						<form id = "taskInput">
+							<input type = "text" id = "task"/>
+							<button title="Add task" id="addtask" class="tasklistadd sameLineBtn" type="button">Add task</button>          
+						</form>
+					</div>
+					<ul id = "tlist"></ul>
 				</section>
 			</section>
 		</div>
 		<audio id="audioNotification" src="./assets/ding.wav"></audio>
+
 	</main>
+
+	<!-- Info Modal -->
+	<div id="infoContainer" class="modal">		
+		<div class="modal-content">
+			<span class="close">&times;</span>
+			<br>
+			<section>
+				<h2 class="infoHeaderh2">What is Pomodoro?</h2>
+				<p class="infoHeaderp">The Pomodoro technique is a time management method where you break your work into chunks of tasks called "pomos" where each task will take you around 25 minutes to complete. It helps put your work and breaks into intervals so you can meaningfully get stuff done while not overworking yourself for long periods of time.</p>
+				<br>
+				<h2 class="infoHeaderh2">How to use this Pomodoro timer</h2>
+				<ol class="infoHeaderol">
+					<li>Add tasks (also known as "pomos") to the task list.</li>
+					<li>Start the timer and work for 25 minutes.</li>
+					<li>After finishing your task or "pomo" take a break for 5 minutes.</li>
+					<li>Get back to work! 25 minutes let's go!</li>
+					<li>Hooray you can take a break! Realx for 15 minutes.</li>
+				</ol>
+			</section>
+		</div>
+	</div>
 
 	<!-- Settings Modal -->
 	<div id="settingsContainer" class="modal">		
@@ -39,18 +68,16 @@
 			<br>
 			<h3 id="settings-title">Settings</h3>
 			<section>
-				<div class="toggle-setting">
-					<label for="autostart" class="toggleLabel">AutoStart</label>
-					<input type="checkbox" id="autostart" class="checkbox" />
-					<label for="autostart" class="switch"></label>
-				</div>
 
-				<div class="toggle-setting">
-					<label for="mute" class="toggleLabel">Mute</label>
-					<input type="checkbox" id="mute" class="checkbox" />
-					<label for="mute" class="switch"></label>
-				</div>
-				
+				<label for="autostart" class="toggleLabel">AutoStart</label>
+				<input type="checkbox" id="autostart" class="checkbox" />
+				<label for="autostart" class="switch"></label>
+				<br>
+				<label for="dark-mode" class="toggleLabel">Dark Mode</label>
+				<input type="checkbox" id="dark-mode" class="checkbox" />
+				<label for="dark-mode" class="switch"></label>
+				<br>
+
 				<form id="time-settings">
 					<div class="time-setting">
 						<label for="focus-time">Focus Time</label>
@@ -86,6 +113,7 @@
 	</div>
 
 	<script src="./source/controller.js" type="module"></script>
+  <script src="./source/tasklist.js"></script>
 	
 </body>
 </html>

@@ -204,3 +204,24 @@ function updateTimeSettings() {
 
 
 
+window.onkeydown = function (e) {
+    var code = e.keyCode ? e.keyCode : e.which;
+    if(code == 32){ //space
+        //start timer
+        if(window.getComputedStyle(document.getElementById('starttimer')).display == "none") {
+            resetTimer();
+        }
+        //reset timer
+        else {
+            startTimer();
+        }
+    } 
+    else if(code == 83){ //s 
+        if(window.getComputedStyle('starttimer').display === "none") settings.displayModal();
+    }
+    else if(code == 27){ //ESC
+        settings.closeModal();
+    }
+}
+
+
