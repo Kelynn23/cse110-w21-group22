@@ -201,13 +201,16 @@ function updateTimeSettings() {
     updateView();
 }
 
-
-
+//keyboard command controls
 window.onkeydown = function (e) {
     var code = e.keyCode ? e.keyCode : e.which;
-    if(code == 32){ //space
-        //start timer
-        if(window.getComputedStyle(document.getElementById('starttimer')).display == "none") {
+    if(code == 32){ //SPACE
+        //do not allow any behavior if either menus are open
+        if(settings.getInfoModalDisplay() != "none" || settings.getModalDisplay() != "none") {
+          return;
+        }
+        //reset timer
+        else if(display.getStartBtnDisplay() == "none") {
             resetTimer();
         }
         //reset timer
@@ -215,8 +218,10 @@ window.onkeydown = function (e) {
             startTimer();
         }
     } 
-    else if(code == 83){ //s 
-        if(window.getComputedStyle('starttimer').display === "none") settings.displayModal();
+    else if(code == 83){ //S 
+        if(display.getSettingsBtnDisplay() != "none") {
+          settings.displayModal();
+        }
     }
     else if(code == 27){ //ESC
         settings.closeModal();

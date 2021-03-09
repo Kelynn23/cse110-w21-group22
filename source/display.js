@@ -128,10 +128,26 @@ export function showStartBtn() {
 }
 
 /**
+ * 
+ * @returns {string} display status of Start Button
+ */
+export function getStartBtnDisplay() {
+  return startBtn.style.display;
+}
+
+/**
  * Displays the settings button
  */
 export function showSettingsButton() {
     settingsBtn.style.display = "initial";
+}
+
+/**
+ * 
+ * @returns {string} display status of Settings Button
+ */
+ export function getSettingsBtnDisplay() {
+  return settingsBtn.style.display;
 }
 
 /**

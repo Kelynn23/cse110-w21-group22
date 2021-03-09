@@ -133,6 +133,13 @@ export function displayModal() {
 }
 
 /**
+ * @returns {string} display status of Settings Modal
+ */
+export function getModalDisplay() {
+  return modal.style.display;
+}
+
+/**
  * Opens the info modal
  */
 function displayInfoModal() {
@@ -153,7 +160,12 @@ function closeInfoModal() {
   infoModal.style.display = "none";
 }
 
-
+/**
+ * @returns {string} display status of Settings Modal
+ */
+export function getInfoModalDisplay() {
+  return infoModal.style.display;
+}
 
 /**
  * Submit user inputs when the user clicks outside the settings box
