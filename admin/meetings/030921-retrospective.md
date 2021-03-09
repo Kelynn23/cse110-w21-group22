@@ -2,7 +2,7 @@
 
 ### Sprint 2 Retrospective
   - Where: Discord
-  - When: 03/08/2021 6:00 PM - 7:30 PM PST
+  - When: 03/09/2021 2:00 PM - 3:00 PM PST
   
 ### Attendees
 
