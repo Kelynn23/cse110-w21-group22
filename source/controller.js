@@ -1,6 +1,6 @@
 import * as logic from './logic.js';
 import * as display from './display.js';
-import * as settings from './settings.js'
+import * as settings from './settings.js';
 /**
  * @file  controller.js is used to take the logic functions from logic.js and control the timer
  * @author group 22
