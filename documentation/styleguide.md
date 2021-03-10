@@ -9,5 +9,9 @@
 
 
 ### For HTML
-  Please refer to https://www.w3schools.com/html/html5_syntax.asp for the rest of the styling guide that was not mentioned
+  Please refer to https://www.w3schools.com/html/html5_syntax.asp for the rest of the styling details that was not mentioned
+  
+  
+### For CSS
+  Please refer to https://google.github.io/styleguide/htmlcssguide.html#CSS_Style_Rules for the rest of the styling details that was not mentioned
   
