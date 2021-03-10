@@ -82,6 +82,21 @@ table {
 	background-color: #008CBA;
 	color: #FFFFFF;
 }
+#tlist {
+  max-width:500px;
+  word-wrap:break-word;
+  text-align:left;
+}
+.taskclicked {
+	text-decoration: line-through;
+}
+#taskInput {
+  padding-top: 5px;
+	padding-bottom: 5px;
+	padding-right: 15px;
+	padding-left: 15px;
+  display:none;
+}
 .right {
 	display: inline-block;
 	height: 100%;
