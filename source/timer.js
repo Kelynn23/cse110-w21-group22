@@ -32,6 +32,11 @@ const modeDisplay = document.getElementById('modeDisplay');
  * @type {element}
  */
 const autoStartSetting = document.getElementById('autostart');
+/**
+ * Mute Toggle
+ * @type {element}
+ */
+ const muteSetting = document.getElementById('mute');
 
 /**
  * Check if timer has started or not
@@ -176,7 +181,9 @@ function timer() {
         clearInterval(timerInterval);
         startButton.innerHTML = 'Start';
         timerStatus = NOT_STARTED;
-        timerSound(mode);
+        if(!muteSetting.checked) {
+            timerSound(mode);
+        }
         //notify users that current session ends
         pomoEndNotif(mode);
         //work -> short break -> long break

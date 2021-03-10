@@ -145,7 +145,12 @@ form button {
 	top: 50%;
 	text-align: center;
 	transform:translate(-50%,-50%);
-	font-size: 80px;
+	font-size: 5vw;
+}
+@media screen and (min-width: 1600px) {
+	.timer {
+	   font-size: 80px;
+	}
 }
 .mode {
 	display: block;
@@ -154,7 +159,20 @@ form button {
 	top: 20%;
 	text-align: center;
 	transform:translate(-50%,-50%);
-	font-size: x-large;
+	font-size: 2vw;
+}
+@media screen and (max-width: 1005px) {
+	.timer {
+		font-size: 50px;
+	 }
+	.mode {
+		font-size: 20px;
+	}
+}
+@media screen and (min-width: 1155px) {
+	.mode {
+		font-size: x-large;
+	}
 }
 .start, .reset {
 	display: block;
@@ -236,6 +254,24 @@ form button {
 	.timercontainer {
 		position: static;
 		width: 100%;
+	}
+	.timer {
+		font-size: 10vw;
+	}
+	.mode {
+		font-size: 3vw;
+	}
+	.complete {
+		font-size: 2.5vw;
+	}
+	.tasklist {
+		font-size: 2.5vw;
+	}
+	.tasklistadd {
+		font-size: 2.5vw;
+	}
+	.start, .reset {
+		font-size: 3vw;
 	}
 	.right {
 		position: static;

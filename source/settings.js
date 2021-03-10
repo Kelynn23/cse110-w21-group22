@@ -71,10 +71,29 @@ const longBreakTimeInput = document.getElementById('long-break');
 const autoStartSetting = document.getElementById('autostart');
 
 /**
+ * Mute toggle
+ * @type {element}
+ */
+ const muteSetting = document.getElementById('mute');
+
+
+/**
+ * Get user input for voice sound
+ * @type {element}
+ */
+const voiceSound = document.getElementById('radio-voice');
+
+/**
+ * Get user input for ding sound
+ * @type {element}
+ */
+const dingSound = document.getElementById('radio-ding');
+/*
  * Auto start toggle
  * @type {element}
  */
  const darkModeBtn = document.getElementById('dark-mode');
+
 
 var updateTimes = function() {};
 
@@ -126,6 +145,32 @@ export function autoStartOn() {
 }
 
 /**
+ * Sends the user input to see if they want to mute
+ * @return {boolean} - True if they want to mute, false if they do not want to mute
+ */
+ export function muteOn() {
+  return muteSetting.checked;
+}
+
+/**
+ * Sends the user input to see if they want voice sound on or off
+ * @return {boolean} - True if they want it is on, false if they want it off
+ */
+export function voiceSoundOn() {
+  return voiceSound.checked;
+}
+
+/**
+ * Sends the user input to see if they want ding sound on or off
+ * @return {boolean} - True if they want it is on, false if they want it off
+ */
+export function dingSoundOn() {
+  return dingSound.checked;
+}
+
+
+/**
+ * Opens the modal
  * Opens the settings modal
  */
 export function displayModal() {
