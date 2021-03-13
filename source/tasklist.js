@@ -34,7 +34,7 @@ function addTask() {
   //press to show input field
   //if(window.getComputedStyle(input).getPropertyValue('display') == "none") {
     //maximum size the tasklist can be is 20
-  if(taskList.getElementsByTagName("LI").length > MAX_TASKLIST_SIZE) {
+  if(taskList.getElementsByTagName("LI").length >= MAX_TASKLIST_SIZE) {
     alert("You've got too many tasks.");
     return;
   } else {
