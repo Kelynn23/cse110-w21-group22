@@ -76,3 +76,53 @@ beforeEach(() => {
     cy.viewport(520, 750)
     cy.get('.timer').should('have.css', 'font-size', '52px');
   });
+
+
+  it('Tests for invalid Input', () => {
+    cy.get('#settingsBtn').click();
+    cy.get('#focus-time').invoke('val','70').trigger('input');
+    cy.get('#short-break').invoke('val','70').trigger('input');
+    cy.get('#long-break').invoke('val','70').trigger('input');
+    cy.get('input:invalid').should('have.length', 3);
+  });
+
+
+  it('Checks if audio plays when timer ends', () => {
+    cy.get('#starttimer').click();
+    cy.tick(10000);
+    cy.get('audio').should((els)=>{
+      let audible = false
+      els.each((i, el)=>{
+        console.log(el)
+        console.log(el.duration, el.paused, el.muted)
+        if (el.duration > 0 && !el.paused && !el.muted) {
+          audible = true
+        }
+  
+        // expect(el.duration > 0 && !el.paused && !el.muted).to.eq(false)
+      })
+      expect(audible).to.eq(true)
+    })
+  });
+
+
+  it('Checks if audio does not play when timer ends if mute is on', () => {
+    cy.get('#settingsBtn').click();
+    cy.get('.switch').eq(2).click();
+    cy.get('.close').last().click();
+    cy.get('#starttimer').click();
+    cy.tick(10000);
+    cy.get('audio').should((els)=>{
+      let audible = false
+      els.each((i, el)=>{
+        console.log(el)
+        console.log(el.duration, el.paused, el.muted)
+        if (el.duration > 0 && !el.paused && !el.muted) {
+          audible = true
+        }
+  
+        // expect(el.duration > 0 && !el.paused && !el.muted).to.eq(false)
+      })
+      expect(audible).to.eq(false)
+    })
+  });
