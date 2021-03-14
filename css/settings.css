@@ -35,12 +35,12 @@
     transform: translate(-50%, -50%);      
 }
 
-#taskContent {
+#infoContent {
   max-height: 100%;
   overflow-y: auto;
 }
 
-#taskContent::-webkit-scrollbar {
+#infoContent::-webkit-scrollbar {
   display:none;
 }
 

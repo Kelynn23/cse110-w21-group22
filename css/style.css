@@ -69,7 +69,7 @@ ol {
 .complete {
 	background-color: white;
 	border-radius: 10px;
-	margin-bottom: 20px;
+	margin-bottom: 19px;
 	padding: 10px 0;
 	text-align: center;
 	width: 100%;
@@ -81,6 +81,7 @@ ol {
 	display: block;
 	margin: 0;
 	text-align: center;
+  height: 60%;
 }
 .tasklistadd {
 	border: 2px solid #008CBA;
@@ -103,10 +104,13 @@ ol {
 }
 #tlist {
   margin-top: 0px;
+  margin-right: 20px;
   border-top: 0px; 
   max-width:500px;
   word-wrap:break-word;
   text-align:left;
+  max-height:49%;
+  overflow-y:auto;
 }
 .taskListEntry:hover {
 	text-decoration: line-through;
@@ -116,7 +120,6 @@ ol {
 	padding-bottom: 5px;
 	padding-right: 15px;
 	padding-left: 15px;
-	/*display:none;*/
 }
 .sameLine {
 	white-space: nowrap;
@@ -133,9 +136,10 @@ form button {
 .right {
 	display: inline-block;
 	height: 100%;
-	position: absolute;
+	position: relative;
 	right: 0;
 	width: 40%;
+  vertical-align: top;
 }
 .timer {
 	display: block;
@@ -198,8 +202,8 @@ form button {
 	border-radius: 10px;
 	display: inline-block;
 	height: 100%;
-	margin-bottom: 20px;
-	position: absolute;
+	/*margin-bottom: 20px;*/
+	position: relative;
 	width: 59%;
 }
 .innercontainer {

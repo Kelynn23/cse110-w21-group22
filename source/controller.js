@@ -6,22 +6,26 @@ import * as settings from './settings.js';
  * @author group 22
  */
 
-
+/**
+ * One minute
+ * @type {number}
+ */
+ const MINUTE = 60;
 /**
  * Default focus time that will be used if the user does not adjust the time themselves
  * @type {number}
  */
-const DEFAULT_FOCUS_TIME = 10;
+const DEFAULT_FOCUS_TIME = 1500;
 /**
  * Default short break time that will be used if the user does not adjust the time themselves
  * @type {number}
  */
-const DEFAULT_SHORT_BREAK_TIME = 5;
+const DEFAULT_SHORT_BREAK_TIME = 300;
 /**
  * Default long break time that will be used if the user does not adjust the time themselves
  * @type {number}
  */
-const DEFAULT_LONG_BREAK_TIME = 7;
+const DEFAULT_LONG_BREAK_TIME = 900;
 
 
 /**
@@ -193,40 +197,13 @@ function pomoEndNotif(endedMode) {
  * Update the time based on user input
  */
 function updateTimeSettings() { 
-    focusTime = settings.getFocusTime();
-    shortBreak = settings.getShortBreakTime();
-    longBreak = settings.getLongBreakTime();
+    focusTime = settings.getFocusTime()*MINUTE;
+    shortBreak = settings.getShortBreakTime()*MINUTE;
+    longBreak = settings.getLongBreakTime()*MINUTE;
 
     currentSessionTime = logic.nextSessionTime(mode, focusTime, shortBreak, longBreak);
     timeString = logic.getTimeString(currentSessionTime);
     updateView();
-}
-
-//keyboard command controls
-window.onkeydown = function (e) {
-    var code = e.keyCode ? e.keyCode : e.which;
-    if(code == 32){ //SPACE
-        //do not allow any behavior if either menus are open
-        if(settings.getInfoModalDisplay() != "none" || settings.getModalDisplay() != "none") {
-          return;
-        }
-        //reset timer
-        else if(display.getStartBtnDisplay() == "none") {
-            resetTimer();
-        }
-        //reset timer
-        else {
-            startTimer();
-        }
-    } 
-    else if(code == 83){ //S 
-        if(display.getSettingsBtnDisplay() != "none") {
-          settings.displayModal();
-        }
-    }
-    else if(code == 27){ //ESC
-        settings.closeModal();
-    }
 }
 
 

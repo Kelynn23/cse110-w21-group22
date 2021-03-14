@@ -31,33 +31,28 @@ input.addEventListener("submit", function(event){
  * Checks if the user has inputed a task in the input field and adds it to the tasklist
  */
 function addTask() {
-  //press to show input field
-  //if(window.getComputedStyle(input).getPropertyValue('display') == "none") {
     //maximum size the tasklist can be is 20
   if(taskList.getElementsByTagName("LI").length >= MAX_TASKLIST_SIZE) {
     alert("You've got too many tasks.");
+    document.getElementById("taskInput").reset();
     return;
-  } else {
-    //input.style.display = "block";
-  //}
-  //press after input given
-  
+  } 
+
   //get user input and append a list item containing that input
     let item = document.createElement('li');
     itemText = document.getElementById('task').value;
     item.classList.add('taskListEntry');
-    //check to ensure field is not empty
-    if(itemText === '' || itemText === null || itemText === ' ') {
+    //check to ensure field is not empty, null, undefined
+    if(!itemText?.trim()) {
+      document.getElementById("taskInput").reset();
       return;
     }
     item.innerHTML = itemText;
-    item.addEventListener('click', function(item) { //onclick the entry will strikethrough
+    item.addEventListener('click', function(item) { //onclick the entry delete itself
       let element = item.target;
       element.parentNode.removeChild(element);
     });
 
     taskList.appendChild(item); //add to list
     document.getElementById("taskInput").reset();
-    //input.style.display = "none"; //hide input field
   }
-}
