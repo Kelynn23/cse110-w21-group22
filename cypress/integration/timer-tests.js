@@ -15,7 +15,7 @@ beforeEach(() => {
   it('Setting Changes Display Time', () =>{
     cy.get('#settingsBtn').click();
     cy.get('#focus-time').invoke('val','20').trigger('input');
-    cy.get('.close').click();
+    cy.get('.close').last().click();
     cy.get('#timerDisplay').should('have.text', '00:20');
   });
 
@@ -23,6 +23,13 @@ beforeEach(() => {
     cy.get('#starttimer').click();
     cy.tick(5000);
     cy.get('#timerDisplay').should('have.text', '00:05');
+  });
+
+  it('Browser Name Display', () => {
+    cy.get('#starttimer').click();
+    cy.get('#pageTitle').should('have.text', '(00:10) Focus');
+    cy.tick(1000);
+    cy.get('#pageTitle').should('have.text', '(00:09) Focus');
   });
 
 

@@ -4,7 +4,7 @@ beforeEach(() => {
 
     cy.get('#settingsBtn').click();
     cy.get('.switch').first().click();
-    cy.get('.close').click();
+    cy.get('.close').last().click();
   });
 
   it('Autostart Tick Down', () => {
