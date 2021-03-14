@@ -109,7 +109,7 @@ beforeEach(() => {
   it('Checks if audio does not play when timer ends if mute is on', () => {
     cy.get('#settingsBtn').click();
     cy.get('.switch').eq(2).click();
-    cy.get('.close').click();
+    cy.get('.close').last().click();
     cy.get('#starttimer').click();
     cy.tick(10000);
     cy.get('audio').should((els)=>{
