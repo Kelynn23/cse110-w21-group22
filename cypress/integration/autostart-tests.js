@@ -5,7 +5,6 @@ beforeEach(() => {
     cy.get('#settingsBtn').click();
     cy.get('.switch').first().click();
     cy.get('.close').last().click();
-    cy.get('.close').click();
 
   });
 
