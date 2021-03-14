@@ -68,19 +68,16 @@ export function displayTime(timeString) {
  */
 export function displayMode(modeString) {
     modeDisplay.innerHTML = modeString;
-	if(darkModeBtn.checked) {
-		if(modeString=='Focus') {
+	if (darkModeBtn.checked) {
+		if (modeString=='Focus') {
 			document.getElementsByTagName('body')[0].setAttribute('id','dark-Focus');
-		}
-		else {
+		} else {
 			document.getElementsByTagName('body')[0].setAttribute('id','dark-Break');
 		}
-	}
-	else {
-		if(modeString=='Focus') {
+	} else {
+		if (modeString=='Focus') {
 			document.getElementsByTagName('body')[0].setAttribute('id','Focus');
-		}
-		else {
+		} else {
 			document.getElementsByTagName('body')[0].setAttribute('id','Break');
 		}
 	}
@@ -147,7 +144,7 @@ export function showSettingsButton() {
  * @returns {string} display status of Settings Button
  */
  export function getSettingsBtnDisplay() {
-  return settingsBtn.style.display;
+    return settingsBtn.style.display;
 }
 
 /**

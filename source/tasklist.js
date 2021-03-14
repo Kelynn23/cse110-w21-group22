@@ -32,27 +32,28 @@ input.addEventListener("submit", function(event){
  */
 function addTask() {
     //maximum size the tasklist can be is 20
-  if(taskList.getElementsByTagName("LI").length >= MAX_TASKLIST_SIZE) {
+  if (taskList.getElementsByTagName("LI").length >= MAX_TASKLIST_SIZE) {
     alert("You've got too many tasks.");
     document.getElementById("taskInput").reset();
     return;
   } 
 
   //get user input and append a list item containing that input
-    let item = document.createElement('li');
-    itemText = document.getElementById('task').value;
-    item.classList.add('taskListEntry');
-    //check to ensure field is not empty, null, undefined
-    if(!itemText?.trim()) {
-      document.getElementById("taskInput").reset();
-      return;
-    }
-    item.innerHTML = itemText;
-    item.addEventListener('click', function(item) { //onclick the entry delete itself
-      let element = item.target;
-      element.parentNode.removeChild(element);
-    });
-
-    taskList.appendChild(item); //add to list
+  let item = document.createElement('li');
+  itemText = document.getElementById('task').value;
+  item.classList.add('taskListEntry');
+  //check to ensure field is not empty, null, undefined
+  if (!itemText?.trim()) {
     document.getElementById("taskInput").reset();
+    return;
   }
+  item.innerHTML = itemText;
+
+  item.addEventListener('click', function(item) { //onclick the entry delete itself
+    let element = item.target;
+    element.parentNode.removeChild(element);
+  });
+
+  taskList.appendChild(item); //add to list
+  document.getElementById("taskInput").reset();
+}
