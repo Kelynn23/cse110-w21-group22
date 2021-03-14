@@ -29,12 +29,12 @@ const infoBtn = document.getElementById("infoBtn");
  * Close setting button
  * @type {element}
  */
-const closeBtn = document.getElementsByClassName("close")[0];
+const closeBtn = document.getElementsByClassName("close")[1];
 /**
  * Close info button
  * @type {element}
  */
-const closeBtnInfo = document.getElementsByClassName("close")[1];
+const closeBtnInfo = document.getElementsByClassName("close")[0];
 /**
  * Form for setting inputs
  * @type {element}
@@ -106,7 +106,7 @@ export function setUpSettings(callback) {
   settingsBtn.onclick = displayModal;
   infoBtn.onclick = displayInfoModal;
   closeBtn.onclick = submitSettings;
-  closeBtnInfo.onclick = submitSettings;
+  closeBtnInfo.onclick = closeInfoModal;
   window.onclick = clickOutsideModal;
   settingsForm.addEventListener("submit", validation);
   darkModeBtn.onclick = switchDarkMode;
