@@ -16,3 +16,8 @@ jobs:
           recurse: true
           output_dir: ./documentation
           config_file: jsdoc.json
+      - name: Push changes
+        run: |
+          git add ./documentation
+          git commit -m "updated jsdoc build from github action"
+          git push
