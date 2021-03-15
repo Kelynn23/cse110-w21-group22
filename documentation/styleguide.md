@@ -1,6 +1,6 @@
 ### For JavaScript
 
-  Use tab to ident code
+  Please use normal tab to ident code
   
   Please specify the type when loading external script into html
   
@@ -13,5 +13,7 @@
   
   
 ### For CSS
-  Please refer to https://google.github.io/styleguide/htmlcssguide.html#CSS_Style_Rules for the rest of the styling details that was not mentioned
+  Please avoid using shorthand property
+  Please use semicolon to end line
+  
   
