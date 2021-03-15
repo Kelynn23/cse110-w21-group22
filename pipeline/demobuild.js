@@ -1,1 +1,1 @@
-alert('this is for a demo');
+alert('build demo');
