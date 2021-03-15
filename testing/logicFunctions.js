@@ -1,11 +1,33 @@
+/**
+ * Number id that is used to identify whether mode is focus time
+ * @type {number}
+ */
 const WORK = 0;
+
+/**
+ * Number id that is used to identify whether mode is short break
+ * @type {number}
+ */
 const SHORT_BREAK = 1;
+/**
+ * Number id that is used to identify whether mode is long break
+ * @type {number}
+ */
 const LONG_BREAK = 2;
 
+/**
+ * Seconds in minutes
+ * @type {number}
+ */
 const MINUTE = 60;
 
-/* decrements the time every second 
+
+/**
+ * Decrements the time every second
  * uses a callback function to communicate with controller.js
+ * @param {number} - The total time in seconds
+ * @param {function} - Function from controller.js that will be calledback
+ * @return {number} - The id of the setInterval 
  */
 function timer(time, callback) {
     let timerID = setInterval(() => {
@@ -15,40 +37,56 @@ function timer(time, callback) {
     return timerID;
 }
 
-// returns a string showing the time in minutes in seconds
+
+/**
+ * Returns a string showing the time in minutes in seconds
+ * @param {number} time - The total time in seconds
+ * @return {string} - A nice formated string displaying the minutes and seconds left
+ */
 function getTimeString(time) {
     let seconds = time % MINUTE;
     let minutes = Math.floor((time / MINUTE));
-    if(seconds < 10) seconds = '0' + seconds;
-    if(minutes < 10) minutes = '0' + minutes;
+
+    if (seconds < 10) {
+        seconds = '0' + seconds;
+    } 
+    if (minutes < 10) {
+        minutes = '0' + minutes;
+    } 
   
     return minutes + ":" + seconds;
 }
 
-// returns the next mode (used to be called pomoTransitions)
+
+/**
+ * Returns the next mode 
+ * @param {number} mode - Number the represents the current mode
+ * @param {number} numPomos - The number of pomos that have been completed
+ * @param {number} numPomosToLongBreak - The number of pomos that have to be compeleted before a long break
+ * @return - The next mode after the user completes the current mode
+ */
 function nextMode(mode, numPomos, numPomosToLongBreak) {
     let nextMode;
     //working -> long break
-    if(numPomos % numPomosToLongBreak == numPomosToLongBreak - 1 
-        && mode == WORK) {
+    if (numPomos % numPomosToLongBreak == numPomosToLongBreak - 1 && mode == WORK) {
         nextMode = LONG_BREAK;
-    }
-    //short break -> working
-    else if(mode == SHORT_BREAK) {
+    } else if (mode == SHORT_BREAK) { //short break -> working
         nextMode = WORK;
-    }
-    //working -> short break
-    else if(mode == WORK) {
+    } else if (mode == WORK) {  //working -> short break
         nextMode = SHORT_BREAK;
-    }
-    //long break -> working
-    else{
+    } else {     //long break -> working
         nextMode = WORK;  
     }
     return nextMode;
 }
 
-// increments numPomos after a break
+
+/**
+ * Increments numPomos after a break
+ * @param {number} nextMode - Number the represents the next mode the user will begin
+ * @param {number} numPomos - The number of pomos that have been completed
+ * @return {number} - The number of pomos that have been completed after being updated
+ */
 function pomosFinished (nextMode, numPomos) {
     if (nextMode == WORK) {
         numPomos++;
@@ -56,7 +94,12 @@ function pomosFinished (nextMode, numPomos) {
     return numPomos;
 }
 
-// returns the correct modeString for the next session
+
+/**
+ * Returns the correct modeString for the next session
+ * @param {number} nextMode - Number the represents the next mode the user will begin
+ * @return {string} - String that will be displayed to the user informing them of the next mode
+ */
 function newModeString(nextMode) {
     let modeString;
     if(nextMode == WORK) {
@@ -69,10 +112,17 @@ function newModeString(nextMode) {
     return modeString;
 }
 
-// returns the amount of time for the next session
+/**
+ * Returns the amount of time for the next session
+ * @param {number} nextMode - Number that represents the next mode the user is about to start
+ * @param {number} focusTime - The total time in seconds that will be used in the focus mode
+ * @param {number} shortBreak - The total time in seconds that will be used in the short break mode
+ * @param {number} longBreak - The total time in seconds that will be used in the long break mode
+ * @return {number} - The total time in seconds that will be counted down
+ */
 function nextSessionTime(nextMode, focusTime, shortBreak, longBreak) {
     let startTime;
-    if(nextMode == WORK) {
+    if (nextMode == WORK) {
         startTime = focusTime;
     } else if (nextMode == SHORT_BREAK) {
         startTime = shortBreak;
@@ -82,15 +132,20 @@ function nextSessionTime(nextMode, focusTime, shortBreak, longBreak) {
     return startTime;
 }
 
-// returns the notification string for the round that just ended 
+
+/**
+ * Returns the notification string for the round that just ended 
+ * @param {number} endedMode - Number that the represents the mode that has ended
+ * @return {string} - String that will be displayed to the user in the notification telling them which mode has ended
+ */
 function notificationString(endedMode) {
     let notification;
-    if(endedMode == WORK) {
-        notification =  'Work Session Ended';  
-    } else if(endedMode == SHORT_BREAK) {
-        notification =  'Short Break Ended';
+    if (endedMode == WORK) {
+        notification = 'Work Session Ended';  
+    } else if (endedMode == SHORT_BREAK) {
+        notification = 'Short Break Ended';
     } else {
-        notification =  'Long Break Ended';
+        notification = 'Long Break Ended';
     }
     return notification; 
 }
@@ -117,7 +172,6 @@ function notificationAudioSource(nextMode, voiceSoundOn) {
     return notificationAudioLocation;
 
 }
-
 module.exports = {
     pomosFinished, 
     getTimeString,
