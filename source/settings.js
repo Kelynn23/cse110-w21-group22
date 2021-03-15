@@ -1,5 +1,5 @@
 /**
- * @file checks for user input in the settings and makes changes based on it
+ * @file checks for user input in the settings and makes changes based on it also controls the open and close function of the help modal
  * @author group 22
  */
 
