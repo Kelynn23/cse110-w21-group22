@@ -8,7 +8,7 @@ beforeEach(() => {
   });
 
   it('Initial Display', () =>{
-    cy.get('#timerDisplay').should('have.text', '00:10');
+    cy.get('#timerDisplay').should('have.text', '25:00');
     cy.get('#complete').should('have.text', '0 Pomos Finished');
   });
 
@@ -16,20 +16,20 @@ beforeEach(() => {
     cy.get('#settingsBtn').click();
     cy.get('#focus-time').invoke('val','20').trigger('input');
     cy.get('.close').last().click();
-    cy.get('#timerDisplay').should('have.text', '00:20');
+    cy.get('#timerDisplay').should('have.text', '20:00');
   });
 
   it('Timer Ticking Down Display',() =>{
     cy.get('#starttimer').click();
     cy.tick(5000);
-    cy.get('#timerDisplay').should('have.text', '00:05');
+    cy.get('#timerDisplay').should('have.text', '24:55');
   });
 
   it('Browser Name Display', () => {
     cy.get('#starttimer').click();
-    cy.get('#pageTitle').should('have.text', '(00:10) Focus');
+    cy.get('#pageTitle').should('have.text', '(25:00) Focus');
     cy.tick(1000);
-    cy.get('#pageTitle').should('have.text', '(00:09) Focus');
+    cy.get('#pageTitle').should('have.text', '(24:59) Focus');
   });
 
 
@@ -42,15 +42,16 @@ beforeEach(() => {
   it('Reset Timer During Work Session',() =>{
     cy.get('#starttimer').click();
     cy.tick(1000);
+    cy.get('#timerDisplay').should('have.text', '24:59');
     cy.get('#resettimer').click();
-    cy.get('#timerDisplay').should('have.text', '00:10');
+    cy.get('#timerDisplay').should('have.text', '25:00');
     cy.get('#settingsBtn').should('be.enabled');
   });
 
 
   it('Timer End Send Alert',() =>{
     cy.get('#starttimer').click();
-    cy.tick(10500);    //extra 500ms
+    cy.tick(1500500);    //extra 500ms
     cy.on('window:alert', (str) => {
         expect(str).to.contains('Work Session Ended');
       })
@@ -58,17 +59,18 @@ beforeEach(() => {
 
   it('Timer Stop When Autostart Off',() =>{
     cy.get('#starttimer').click();
-    cy.tick(12000); 
-    cy.get('#timerDisplay').should('have.text', '00:05');
+    cy.tick(1500500); 
+    cy.get('#timerDisplay').should('have.text', '00:00');
+    cy.get('#starttimer').should('be.enabled');
   });
 
   it('Reset Timer During Break',() =>{
     cy.get('#starttimer').click();
-    cy.tick(10000);
+    cy.tick(1500500);
     cy.get('#starttimer').click();
     cy.tick(1000);
     cy.get('#resettimer').click();
-    cy.get('#timerDisplay').should('have.text', '00:10');
+    cy.get('#timerDisplay').should('have.text', '25:00');
     cy.get('#settingsBtn').should('be.enabled');
   });
 
@@ -89,7 +91,7 @@ beforeEach(() => {
 
   it('Checks if audio plays when timer ends', () => {
     cy.get('#starttimer').click();
-    cy.tick(10000);
+    cy.tick(1500500);
     cy.get('audio').should((els)=>{
       let audible = false
       els.each((i, el)=>{
@@ -111,7 +113,7 @@ beforeEach(() => {
     cy.get('.switch').eq(2).click();
     cy.get('.close').last().click();
     cy.get('#starttimer').click();
-    cy.tick(10000);
+    cy.tick(1500500);
     cy.get('audio').should((els)=>{
       let audible = false
       els.each((i, el)=>{

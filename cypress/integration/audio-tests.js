@@ -36,7 +36,7 @@ beforeEach(() => {
 
 it('Plays Audio At Pomo End', ()=>{
     cy.get('#starttimer').click();
-    cy.tick(10000);
+    cy.tick(1500000);
     expectPlayingAudio();
 });
 
@@ -46,6 +46,6 @@ it('Not Play Audio If Muted', ()=>{
     cy.get('.close').last().click();
 
     cy.get('#starttimer').click();
-    cy.tick(25000);
+    cy.tick(1500000);
     expectMuted();
 });
