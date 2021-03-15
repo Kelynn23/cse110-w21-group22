@@ -1,5 +1,10 @@
-name: Documentation
-on: [push]
+name: Github pages
+
+on:
+  push:
+    branches:
+      - master
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
