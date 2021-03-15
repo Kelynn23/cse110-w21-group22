@@ -19,3 +19,13 @@ beforeEach(() => {
 
     cy.get('ul > li').should('have.length', 20);
   });
+
+  it('Checks that you can not add tasks that just contain whitespace', () => {
+    for(let i = 0; i < 25; i++) {
+        cy.get('#task').invoke('val','    ').trigger('input');
+        cy.get('#addtask').click();
+    }
+
+    cy.get('ul > li').should('have.length', 0);
+  });
+
