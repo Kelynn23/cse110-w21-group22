@@ -60,7 +60,7 @@ beforeEach(() => {
   it('Timer Stop When Autostart Off',() =>{
     cy.get('#starttimer').click();
     cy.tick(1500500); 
-    cy.get('#timerDisplay').should('have.text', '00:00');
+    cy.get('#timerDisplay').should('have.text', '05:00');
     cy.get('#starttimer').should('be.enabled');
   });
 
