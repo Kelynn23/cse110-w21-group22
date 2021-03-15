@@ -10,6 +10,7 @@
 
 ### For HTML
   Please specify the type when loading external script into html
+  
   Please refer to https://www.w3schools.com/html/html5_syntax.asp for the rest of the styling details that was not mentioned
   
   
