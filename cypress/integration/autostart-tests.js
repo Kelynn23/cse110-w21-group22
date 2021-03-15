@@ -18,7 +18,7 @@ beforeEach(() => {
     cy.get('#starttimer').click();
     cy.tick(1501000);
     cy.get('#modeDisplay').should('have.text', 'Short Break');
-    cy.tick(301000);
+    cy.tick(1801000*3);
     cy.get('#modeDisplay').should('have.text', 'Long Break');
   });
 
