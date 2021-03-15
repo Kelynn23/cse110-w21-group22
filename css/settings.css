@@ -35,6 +35,15 @@
     transform: translate(-50%, -50%);      
 }
 
+#infoContent {
+  max-height: 100%;
+  overflow-y: auto;
+}
+
+#infoContent::-webkit-scrollbar {
+  display:none;
+}
+
 /* Close Button to Exit the Modal */
 .close {
     color: #aaa;

@@ -53,8 +53,13 @@ export function timer(time, callback) {
 export function getTimeString(time) {
     let seconds = time % MINUTE;
     let minutes = Math.floor((time / MINUTE));
-    if(seconds < 10) seconds = '0' + seconds;
-    if(minutes < 10) minutes = '0' + minutes;
+
+    if (seconds < 10) {
+        seconds = '0' + seconds;
+    } 
+    if (minutes < 10) {
+        minutes = '0' + minutes;
+    } 
   
     return minutes + ":" + seconds;
 }
@@ -161,14 +166,14 @@ export function notificationAudioSource(nextMode, voiceSoundOn) {
     let notificationAudioLocation;
     if (voiceSoundOn) {
         if (nextMode == WORK) {
-            notificationAudioLocation = './assets/focusTime.wav';
+            notificationAudioLocation = './assets/focusTime.mp3';
         } else if (nextMode == SHORT_BREAK) {
-            notificationAudioLocation = './assets/shortBreak.wav';
+            notificationAudioLocation = './assets/shortBreak.mp3';
         } else {
-            notificationAudioLocation = './assets/longBreak.wav';
+            notificationAudioLocation = './assets/longBreak.mp3';
         }
     } else {
-        notificationAudioLocation = './assets/ding.wav';
+        notificationAudioLocation = './assets/ding.mp3';
     }
 
     return notificationAudioLocation;

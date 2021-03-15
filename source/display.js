@@ -1,3 +1,4 @@
+
 /**
  * @file display.js deals with all the html stuff that needs be changed
  * @author group 22
@@ -38,8 +39,19 @@ const pomosFinished = document.getElementById('complete');
  * @type {element}
  */
 const settingsBtn = document.getElementById('settingsBtn');
+/**
+ * Button to open info
+ * @type {element}
+ */
+const infoBtn = document.getElementById('infoBtn');
 
 const audio = document.getElementById('audioNotification');
+
+/**
+ * Button to open info
+ * @type {element}
+ */
+const darkModeBtn = document.getElementById('dark-mode');
 
 
 /**
@@ -56,6 +68,19 @@ export function displayTime(timeString) {
  */
 export function displayMode(modeString) {
     modeDisplay.innerHTML = modeString;
+	if (darkModeBtn.checked) {
+		if (modeString=='Focus') {
+			document.getElementsByTagName('body')[0].setAttribute('id','dark-Focus');
+		} else {
+			document.getElementsByTagName('body')[0].setAttribute('id','dark-Break');
+		}
+	} else {
+		if (modeString=='Focus') {
+			document.getElementsByTagName('body')[0].setAttribute('id','Focus');
+		} else {
+			document.getElementsByTagName('body')[0].setAttribute('id','Break');
+		}
+	}
 }
 
 /**
@@ -100,6 +125,14 @@ export function showStartBtn() {
 }
 
 /**
+ * 
+ * @returns {string} display status of Start Button
+ */
+export function getStartBtnDisplay() {
+  return startBtn.style.display;
+}
+
+/**
  * Displays the settings button
  */
 export function showSettingsButton() {
@@ -107,10 +140,32 @@ export function showSettingsButton() {
 }
 
 /**
+ * 
+ * @returns {string} display status of Settings Button
+ */
+ export function getSettingsBtnDisplay() {
+    return settingsBtn.style.display;
+}
+
+/**
+ * Displays the info button
+ */
+export function showInfoButton() {
+    infoBtn.style.display = "initial";
+}
+
+/**
  * Hides the settings button
  */
 export function hideSettingsButton() {
     settingsBtn.style.display = "none";
+}
+
+/**
+ * Hides the info button
+ */
+export function hideInfoButton() {
+    infoBtn.style.display = "none";
 }
 
 /**
