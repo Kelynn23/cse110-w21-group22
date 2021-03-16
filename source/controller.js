@@ -1,27 +1,31 @@
 import * as logic from './logic.js';
 import * as display from './display.js';
-import * as settings from './settings.js'
+import * as settings from './settings.js';
 /**
  * @file  controller.js is used to take the logic functions from logic.js and control the timer
  * @author group 22
  */
 
-
+/**
+ * One minute
+ * @type {number}
+ */
+ const MINUTE = 60;
 /**
  * Default focus time that will be used if the user does not adjust the time themselves
  * @type {number}
  */
-const DEFAULT_FOCUS_TIME = 10;
+const DEFAULT_FOCUS_TIME = 1500;
 /**
  * Default short break time that will be used if the user does not adjust the time themselves
  * @type {number}
  */
-const DEFAULT_SHORT_BREAK_TIME = 5;
+const DEFAULT_SHORT_BREAK_TIME = 300;
 /**
  * Default long break time that will be used if the user does not adjust the time themselves
  * @type {number}
  */
-const DEFAULT_LONG_BREAK_TIME = 7;
+const DEFAULT_LONG_BREAK_TIME = 900;
 
 
 /**
@@ -193,14 +197,13 @@ function pomoEndNotif(endedMode) {
  * Update the time based on user input
  */
 function updateTimeSettings() { 
-    focusTime = settings.getFocusTime();
-    shortBreak = settings.getShortBreakTime();
-    longBreak = settings.getLongBreakTime();
+    focusTime = settings.getFocusTime()*MINUTE;
+    shortBreak = settings.getShortBreakTime()*MINUTE;
+    longBreak = settings.getLongBreakTime()*MINUTE;
 
     currentSessionTime = logic.nextSessionTime(mode, focusTime, shortBreak, longBreak);
     timeString = logic.getTimeString(currentSessionTime);
     updateView();
 }
-
 
 
