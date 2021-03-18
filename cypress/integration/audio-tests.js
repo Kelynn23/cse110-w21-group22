@@ -8,29 +8,25 @@ beforeEach(() => {
    */
   const expectPlayingAudio = () => {
     cy.get('audio,video').should((els)=>{
-      let audible = false
+      let audible = false;
       els.each((i, el)=>{
-        console.log(el)
-        console.log(el.duration, el.paused, el.muted)
         if (el.duration > 0 && !el.paused && !el.muted) {
-          audible = true
+          audible = true;
         }
-      })
-      expect(audible).to.eq(true)
-    })
+      });
+      expect(audible).to.eq(true);
+    });
   }
 
   const expectMuted = () => {
     cy.get('audio,video').should((els)=>{
-      let isMuted = true
+      let isMuted = true;
       els.each((i, el)=>{
-        console.log(el)
-        console.log(el.duration, el.paused, el.muted)
         if (el.duration > 0 && !el.paused && !el.muted) {
-          isMuted = false
+          isMuted = false;
         }
-      })
-      expect(isMuted).to.eq(true)
+      });
+      expect(isMuted).to.eq(true);
     })
   }
 
