@@ -214,11 +214,15 @@ export function getInfoModalDisplay() {
 
 /**
  * Submit user inputs when the user clicks outside the settings box
+ * Close Info modal when user clicks outside the info box
  * @param {*} event - Event that is triggered
  */
 function clickOutsideModal(event) {
-  if (event.target == modal || event.target == infoModal) {
-    submitSettings(); /* IT WORKS */
+  if (event.target == modal) {
+    submitSettings(); 
+  }
+  else if (event.target == infoModal) {
+    closeInfoModal();
   }
 }
 
@@ -239,7 +243,6 @@ function validation(event) {
   event.preventDefault();
   if (checkTimeInputs()) {
     closeModal();
-    closeInfoModal();
     updateTimes();
   }
 }
